@@ -10,6 +10,7 @@ University of Rostock
 }
 \date{\today}
 
+\usepackage{trfsigns}
 
 \begin{document}
 \maketitle
@@ -21,9 +22,20 @@ University of Rostock
 \subsection{Laplace Transform}
 
 \subsection{Fourier Series (FS)}
+%
+\begin{align*}
+X[\mu] = \int\limits_{0}^{T_0} x(t) \e^{-\im (\frac{2\pi}{T_0} \mu) t}\mathrm{d}t
+\qquad
+x(t) = \frac{1}{T_0}\sum\limits_{\mu=-\infty}^{+\infty} X[\mu] \e^{+\im (\frac{2\pi}{T_0} \mu) t}
+\end{align*}
 
 \subsection{Fourier Transform (FT)}
-
+%
+\begin{align*}
+X(\omega) = \int\limits_{-\infty}^{+\infty} x(t) \e^{-\im \omega t}\mathrm{d}t
+\qquad
+x(t) = \int\limits_{-\infty}^{+\infty} X(\omega) \e^{+\im \omega t}\mathrm{d}\omega
+\end{align*}
 
 
 
@@ -34,9 +46,20 @@ University of Rostock
 \subsection{z-Transform}
 
 \subsection{Discrete-Time Fourier Transform (DTFT)}
+%
+\begin{align*}
+X(\Omega) = \sum\limits_{k=-\infty}^{+\infty} x[k] \e^{-\im \Omega k}
+\qquad
+x[k] = \frac{1}{2\pi}\int\limits_{0}^{2\pi} X(\Omega) \e^{+\im \Omega k}\mathrm{d}\Omega
+\end{align*}
 
 \subsection{Discrete Fourier Transform (DFT)}
-
+%
+\begin{align*}
+X[\mu] = \sum\limits_{k=0}^{N-1} x[k] \e^{-\im (\frac{2\pi}{N} \mu) k}
+\qquad
+x[k] = \frac{1}{N}\sum\limits_{\mu=0}^{N-1} X[\mu] \e^{+\im (\frac{2\pi}{N} \mu) k}
+\end{align*}
 
 \section{Changelog}
 \begin{description}
