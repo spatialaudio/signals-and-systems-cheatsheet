@@ -9,59 +9,79 @@
 University of Rostock
 }
 \date{\today}
-
+\usepackage{fouriernc}
 \usepackage{trfsigns}
 
 \begin{document}
-\maketitle
+%\maketitle
 
 \section{Continuous-Time Domain}
 
 \subsection{Fundamental Signals}
 
 \subsection{Laplace Transform}
+%
+\begin{align*}
+X(s) = \int\limits_{-\infty}^{+\infty} x(t) \, \e^{-s t}\,\mathrm{d}t
+\qquad
+x(t) = \frac{1}{2\pi\im}\lim_{\omega\to\infty}\int\limits_{s=\sigma-\im\omega}^{\sigma+\im\omega} X(s) \,\e^{+s t}\,\mathrm{d}s
+\end{align*}
+
 
 \subsection{Fourier Series (FS)}
 %
 \begin{align*}
-X[\mu] = \int\limits_{0}^{T_0} x(t) \e^{-\im (\frac{2\pi}{T_0} \mu) t}\mathrm{d}t
+X[\mu] = \int\limits_{0}^{T_0} x(t) \, \e^{-\im (\frac{2\pi}{T_0} \mu) t}\,\mathrm{d}t
 \qquad
-x(t) = \frac{1}{T_0}\sum\limits_{\mu=-\infty}^{+\infty} X[\mu] \e^{+\im (\frac{2\pi}{T_0} \mu) t}
+x(t) = \frac{1}{T_0}\sum\limits_{\mu=-\infty}^{+\infty} X[\mu] \,\e^{+\im (\frac{2\pi}{T_0} \mu) t}
 \end{align*}
 
 \subsection{Fourier Transform (FT)}
 %
 \begin{align*}
-X(\omega) = \int\limits_{-\infty}^{+\infty} x(t) \e^{-\im \omega t}\mathrm{d}t
+X(\omega) = \int\limits_{-\infty}^{+\infty} x(t) \,\e^{-\im \omega t}\,\mathrm{d}t
 \qquad
-x(t) = \int\limits_{-\infty}^{+\infty} X(\omega) \e^{+\im \omega t}\mathrm{d}\omega
+x(t) = \int\limits_{-\infty}^{+\infty} X(\omega) \,\e^{+\im \omega t}\,\mathrm{d}\omega
 \end{align*}
 
 
+\hspace{2cm}
 
 \section{Discrete-Time Domain}
 
 \subsection{Fundamental Signals}
 
 \subsection{z-Transform}
+%
+\begin{align*}
+X(z) = \sum\limits_{k=-\infty}^{+\infty} x[k] \,z^{-k}
+\qquad
+x[k] = \frac{1}{2\pi\im}\oint\limits_{C}^{} X(z) \,z^{k-1}\,\mathrm{d}z
+\end{align*}
 
 \subsection{Discrete-Time Fourier Transform (DTFT)}
 %
 \begin{align*}
-X(\Omega) = \sum\limits_{k=-\infty}^{+\infty} x[k] \e^{-\im \Omega k}
+X(\Omega) = \sum\limits_{k=-\infty}^{+\infty} x[k] \,\e^{-\im \Omega k}
 \qquad
-x[k] = \frac{1}{2\pi}\int\limits_{0}^{2\pi} X(\Omega) \e^{+\im \Omega k}\mathrm{d}\Omega
+x[k] = \frac{1}{2\pi}\int\limits_{0}^{2\pi} X(\Omega) \,\e^{+\im \Omega k}\,\mathrm{d}\Omega
 \end{align*}
 
 \subsection{Discrete Fourier Transform (DFT)}
 %
 \begin{align*}
-X[\mu] = \sum\limits_{k=0}^{N-1} x[k] \e^{-\im (\frac{2\pi}{N} \mu) k}
+X[\mu] = \sum\limits_{k=0}^{N-1} x[k] \,\e^{-\im (\frac{2\pi}{N} \mu) k}
 \qquad
-x[k] = \frac{1}{N}\sum\limits_{\mu=0}^{N-1} X[\mu] \e^{+\im (\frac{2\pi}{N} \mu) k}
+x[k] = \frac{1}{N}\sum\limits_{\mu=0}^{N-1} X[\mu] \,\e^{+\im (\frac{2\pi}{N} \mu) k}
 \end{align*}
 
-\section{Changelog}
+\section{Signals and Systems Cheat Sheet}
+\href{mailto:frank.schultz@uni-rostock.de}{Frank Schultz},
+\href{mailto:sascha.spors@uni-rostock.de}{Sascha Spors},
+University of Rostock
+\tiny
+\url{https://github.com/spatialaudio/signals-and-systems-cheatsheet}
+\normalsize
 \begin{description}
 \item[v0.00 - 2020/xx/xx] TBD
 \end{description}
