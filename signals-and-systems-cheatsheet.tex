@@ -1,21 +1,42 @@
-\documentclass[landscape,columns=4]{cheatsheet}
+\documentclass[landscape,columns=2]{cheatsheet} %https://ctan.org/pkg/cheatsheet?lang=en
 \geometry{paper=a3paper}
 \hypersetup{colorlinks = false, allbordercolors = white}
 \title{Signals and Systems Cheat Sheet\\
 \tiny{\url{https://github.com/spatialaudio/signals-and-systems-cheatsheet}}}
 \author{
-\href{mailto:frank.schultz@uni-rostock.de}{Frank Schultz},
-\href{mailto:sascha.spors@uni-rostock.de}{Sascha Spors},
+\href{https://orcid.org/0000-0002-3010-0294}{Frank Schultz},
+\href{https://orcid.org/0000-0001-7225-9992}{Sascha Spors},
 University of Rostock
 }
 \date{\today}
+\usepackage{graphicx}
 \usepackage{fouriernc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{bm}
 \usepackage{trfsigns}
 
 \begin{document}
 %\maketitle
 
 \section{Continuous-Time Domain}
+%
+\begin{itemize}
+\setlength\itemsep{-0.5em}
+\item time $t$ in s, (physical) frequency $f$ in Hz
+%
+\item angular frequency $\omega = 2 \pi f$ in rad/s
+%
+\item cycle duration $T_0$ in s
+%
+\item fundamental oscillation $f_0 = \frac{1}{T_0}$ in Hz
+$\rightarrow \omega_0 = 2 \pi f_0 = \frac{2\pi}{T_0}$ in rad/s
+%
+\end{itemize}
+
+%\includegraphics[width=2.925in]{test.png}
 
 \subsection{Fundamental Signals}
 
@@ -28,26 +49,87 @@ x(t) = \frac{1}{2\pi\im}\lim_{\omega\to\infty}\int\limits_{s=\sigma-\im\omega}^{
 \end{align*}
 
 
+
+
+
+
+
+
+
+
 \subsection{Fourier Series (FS)}
 %
+\begin{itemize}
+\setlength\itemsep{-0.5em}
+\item continuous-time, periodic signal $x(t)$
+%
+\item discrete-frequency, non-periodic spectrum $\tilde{X}[\mu]$
+%
+\item $t\in\mathbb{R}$ and $\mu,\nu\in\mathbb{Z}$
+%
+\item  $T_0$-periodicity: $x(t)=x(t+\nu T_0)$ with $\omega_0 = \frac{2\pi}{T_0}$
+%
+\end{itemize}
+%
 \begin{align*}
-X[\mu] = \int\limits_{0}^{T_0} x(t) \, \e^{-\im (\frac{2\pi}{T_0} \mu) t}\,\mathrm{d}t
+\tilde{X}[\mu] = \int\limits_{0}^{T_0} x(t) \, \e^{-\im \omega_0 \mu t}\,\mathrm{d}t
 \qquad
-x(t) = \frac{1}{T_0}\sum\limits_{\mu=-\infty}^{+\infty} X[\mu] \,\e^{+\im (\frac{2\pi}{T_0} \mu) t}
+x(t) = \frac{1}{T_0}\sum\limits_{\mu=-\infty}^{+\infty} \tilde{X}[\mu] \,\e^{+\im \omega_0 \mu t}
 \end{align*}
 
+
+
+
+
+
+
+
+
+
+
 \subsection{Fourier Transform (FT)}
+%
+\begin{itemize}
+\setlength\itemsep{-0.5em}
+\item continuous-time signal $x(t)$
+%
+\item continuous-frequency, non-periodic spectrum $X(\omega)$
+%
+\item $t, \omega\in\mathbb{R}$
+%
+\end{itemize}
 %
 \begin{align*}
 X(\omega) = \int\limits_{-\infty}^{+\infty} x(t) \,\e^{-\im \omega t}\,\mathrm{d}t
 \qquad
-x(t) = \int\limits_{-\infty}^{+\infty} X(\omega) \,\e^{+\im \omega t}\,\mathrm{d}\omega
+x(t) = \frac{1}{2\pi}\int\limits_{-\infty}^{+\infty} X(\omega) \,\e^{+\im \omega t}\,\mathrm{d}\omega
 \end{align*}
 
 
-\hspace{2cm}
 
+
+
+
+
+
+
+
+%\hspace{2cm}
 \section{Discrete-Time Domain}
+%
+\begin{itemize}
+\setlength\itemsep{-0.5em}
+%
+\item time/sample index $k$
+%
+\item sampling interval $T_s$, sampling frequency $f_s = \frac{1}{T_s}$
+%
+\item temporal sampling: $\omega \cdot t \rightarrow \omega \cdot T_s k = \Omega k$
+%
+\item angular frequency $\Omega = \omega T_s = 2 \pi f T_s = 2 \pi \frac{f}{f_s}$
+%
+\end{itemize}
+
 
 \subsection{Fundamental Signals}
 
@@ -61,28 +143,56 @@ x[k] = \frac{1}{2\pi\im}\oint\limits_{C}^{} X(z) \,z^{k-1}\,\mathrm{d}z
 
 \subsection{Discrete-Time Fourier Transform (DTFT)}
 %
+\begin{itemize}
+\setlength\itemsep{-0.5em}
+\item discrete-time signal $x[k]$
+%
+\item continuous-frequency, periodic spectrum $X(\Omega)$
+%
+\item $k,\nu\in\mathbb{Z}$ and $\Omega\in\mathbb{R}$
+%
+\item  $2\pi$-periodicity: $X(\Omega)=X(\Omega+\nu2\pi)$
+\end{itemize}
+%
 \begin{align*}
 X(\Omega) = \sum\limits_{k=-\infty}^{+\infty} x[k] \,\e^{-\im \Omega k}
 \qquad
 x[k] = \frac{1}{2\pi}\int\limits_{0}^{2\pi} X(\Omega) \,\e^{+\im \Omega k}\,\mathrm{d}\Omega
 \end{align*}
 
+
+
+
+
+
+
 \subsection{Discrete Fourier Transform (DFT)}
 %
+\begin{itemize}
+\setlength\itemsep{-0.5em}
+\item discrete-time, periodic signal $x[k]$
+%
+\item discrete-frequency, periodic spectrum $X[\mu]$
+%
+\item $k,\mu,\nu\in\mathbb{Z}$
+%
+\item  $N$-periodicity: $x[k]=x[k + \nu N]$ and $X[\mu]=x[\mu + \nu N]$
+\end{itemize}
+%
 \begin{align*}
-X[\mu] = \sum\limits_{k=0}^{N-1} x[k] \,\e^{-\im (\frac{2\pi}{N} \mu) k}
+X[\mu] = \sum\limits_{k=0}^{N-1} x[k] \,\e^{-\im \frac{2\pi}{N} \mu k}
 \qquad
-x[k] = \frac{1}{N}\sum\limits_{\mu=0}^{N-1} X[\mu] \,\e^{+\im (\frac{2\pi}{N} \mu) k}
+x[k] = \frac{1}{N}\sum\limits_{\mu=0}^{N-1} X[\mu] \,\e^{+\im \frac{2\pi}{N} \mu k}
 \end{align*}
 
 \section{Signals and Systems Cheat Sheet}
-\href{mailto:frank.schultz@uni-rostock.de}{Frank Schultz},
-\href{mailto:sascha.spors@uni-rostock.de}{Sascha Spors},
-University of Rostock
+\href{https://orcid.org/0000-0002-3010-0294}{Frank Schultz},
+\href{https://orcid.org/0000-0001-7225-9992}{Sascha Spors},
+University of Rostock\\
 \tiny
 \url{https://github.com/spatialaudio/signals-and-systems-cheatsheet}
 \normalsize
 \begin{description}
-\item[v0.00 - 2020/xx/xx] TBD
+\item[v0.00 - 2021/xx/xx] TBD
 \end{description}
 \end{document}
