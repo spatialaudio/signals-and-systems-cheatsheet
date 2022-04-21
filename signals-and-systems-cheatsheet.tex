@@ -1,11 +1,11 @@
-\documentclass[landscape,columns=2]{cheatsheet} %https://ctan.org/pkg/cheatsheet?lang=en
+\documentclass[landscape,columns=3]{cheatsheet} %https://ctan.org/pkg/cheatsheet?lang=en
 \geometry{paper=a3paper}
 \hypersetup{colorlinks = false, allbordercolors = white}
 \title{Signals and Systems Cheat Sheet\\
 \tiny{\url{https://github.com/spatialaudio/signals-and-systems-cheatsheet}}}
 \author{
+Robert Hauser,
 \href{https://orcid.org/0000-0002-3010-0294}{Frank Schultz},
-\href{https://orcid.org/0000-0001-7225-9992}{Sascha Spors},
 University of Rostock
 }
 \date{\today}
@@ -17,7 +17,22 @@ University of Rostock
 \usepackage{amsbsy}
 \usepackage{bm}
 \usepackage{trfsigns}
+\usepackage{pgfplots}
+\usepackage{caption}
+\usepackage{trfsigns}
+\usetikzlibrary{arrows.meta}
 
+%macros
+\usepackage{sig_sys_macros}
+
+%constants
+\def\T{2.5}
+\def\Th{1.25}
+\def\A{1.5}
+
+%small commands
+\newcommand{\sinc}{\mathrm{sinc}}
+\newcommand{\rect}{\mathrm{rect}}
 \begin{document}
 %\maketitle
 
@@ -47,17 +62,17 @@ X(s) = \int\limits_{-\infty}^{+\infty} x(t) \, \e^{-s t}\,\mathrm{d}t
 \qquad
 x(t) = \frac{1}{2\pi\im}\lim_{\omega\to\infty}\int\limits_{s=\sigma-\im\omega}^{\sigma+\im\omega} X(s) \,\e^{+s t}\,\mathrm{d}s
 \end{align*}
+\begin{minipage}{\columnwidth}
+	\includegraphics[width=\columnwidth,keepaspectratio]{laplace}
+\end{minipage}
 
 
 
-
-
-
-
-
-
-
+\columnbreak
 \subsection{Fourier Series (FS)}
+%
+%
+%Rechteckschwingung
 %
 \begin{itemize}
 \setlength\itemsep{-0.5em}
@@ -78,16 +93,56 @@ x(t) = \frac{1}{T_0}\sum\limits_{\mu=-\infty}^{+\infty} \tilde{X}[\mu] \,\e^{+\i
 \end{align*}
 
 
+\begin{minipage}{\columnwidth}
+\includegraphics[width=\columnwidth,keepaspectratio]{fourier_series_rect}
+%\captionof{figure}{zeitlicher Verlauf sowie Fourierkoeffizienten der Rechteckschwingung, ihrer Verschiebung sowie deren Faltung}
+\end{minipage}
+%
+%
+\begin{minipage}{\columnwidth}
+\includegraphics[width=\columnwidth,keepaspectratio]{fourier_series_tri}
+%\captionof{figure}{zeitlicher Verlauf sowie Fourierkoeffizienten der Dreieckschwingung, ihrer Verschiebung sowie deren Faltung}
+\end{minipage}\\
 
+%Fourierkoeffizienten Rechteckschwingung
+%\begin{gather}
+%	c_0=2\int_0^{\frac{T_h}{2}}A\mathrm{d}t 
+%= 2At\Bigg |_{t=0}^{t=\frac{T_h}{2}}=A\cdot T_h\\
+%	c_k=\int_{-\frac{T_h}{2}}^{\frac{T_h}{2}}A\e^{-\im k \omega_0 t}\mathrm{d}t=\frac{A}{\im k \omega_0}\left(\e^{\im \pi k \frac{T_h}{T}}-\e^{-\im \pi k \frac{T_h}{T}}\right)\\
+%	=\frac{AT}{\im k 2\pi }\left(\e^{\im \pi k \frac{T_h}{T}}-\e^{-\im \pi k \frac{T_h}{T}}\right)
+%	=\frac{AT}{k\pi}\sin(\pi k \frac{T_h}{T})\\
+%	=\frac{AT}{k\pi}\frac{T_h}{T_h}\sin(\pi k \frac{T_h}{T})={AT_h}\frac{\sin(\pi k \frac{T_h}{T})}{\pi k \frac{T_h}{T}}=A\cdot T_h\mathrm{sinc}(\pi k \frac{T_h}{T})
+%\end{gather}
+%%%$x(t)\ast y(t)
+%\begin{gather}
+%	x(t)\ast y(t)=\begin{cases}
+%		\int_{t-T_h}^{-T+\frac{T_h}{2}}\frac{A^2}{2}\mathrm{d}\tau=\frac{A^2}{2}\left(-T+\frac{T_h}{2}-t+T_h\right)=-\frac{A^2}{2}\left(t+T-3\frac{T_h}{2}\right)&,-\frac{T}{2}\leq t \leq -\frac{T_h}{2}\\
+%		\int_{-\frac{T_h}{2}}^{t}\frac{A^2}{2}\mathrm{d}\tau=\frac{A^2}{2}\left(t+\frac{T_h}{2}\right)&,\frac{-T_h}{2}\leq t \leq \frac{T_h}{2} \\
+%		\int_{t-T_h}^{\frac{T_h}{2}}\frac{A^2}{2}\mathrm{d}\tau=\frac{A^2}{2}\left(\frac{T_h}{2}-t+T_h\right)=-\frac{A^2}{2}\left(t-3\frac{T_h}{2}\right)&,\frac{T_h}{2}\leq t \leq \frac{T}{2}
+%	\end{cases}
+%\end{gather}
 
+%Fourierkoeffizienten Dreieckschwingung
 
+%\begin{gather}
+%	c_k = \int_{-\frac{T_h}{2}}^{+\frac{T_h}{2}}x(t)\e^{-\im k \omega t}\mathrm{d}t=\int_{-\frac{T_h}{2}}^0\left(\frac{2A}{T_h}t+A\right)\e^{-\im k \omega t}\mathrm{d}t+\int_0^{+\frac{T_h}{2}}\left(-\frac{2A}{T_h}t+A\right)\e^{-\im k \omega t}\mathrm{d}t\\
+%	=\frac{\left(\frac{2A}{T_h}t+A\right)}{-\im k \omega }\e^{-\im k \omega t}\Bigg|_{t=-\frac{T_h}{2}}^{0}+\int_{-\frac{T_h}{2}}^0\frac{\left(\frac{2A}{T_h}\right)}{\im k \omega }\e^{-\im k \omega t}\mathrm{d}t+\frac{\left(-\frac{2A}{T_h}t+A\right)}{-\im k \omega }\e^{-\im k \omega t}\Bigg|_{t=0}^{+\frac{T_h}{2}}-\int_0^{+\frac{T_h}{2}}\frac{\left(\frac{2A}{T_h}\right)}{\im k \omega }\e^{-\im k \omega t}\mathrm{d}t\\
+%	=-\frac{A}{\im k \omega }+\frac{\left(\frac{2A}{T_h}\right)}{k^2\omega^2}\e^{-\im k \omega t}\Bigg |_{t=-\frac{T_h}{2}}^{t=0}+\frac{A}{\im k \omega}+\frac{\left(\frac{2A}{T_h}\right)}{k^2\omega^2}\e^{-\im k \omega t}\Bigg |_{t=+\frac{T_h}{2}}^{t=0}\\
+%	=\frac{\left(\frac{2A}{T_h}\right)}{k^2\omega^2}\left[2-\e^{\im k \omega \frac{T_h}{2}}-\e^{-\im k \omega \frac{T_h}{2}}\right]=\frac{\left(\frac{4A}{T_h}\right)}{k^2\omega^2}\left[1-\cos(k\pi\frac{T_h}{T})\right]
+%\end{gather}
+%Es gilt (vgl. \cite[Kap. 2 S. 83]{Bronstein}):
+%\begin{gather}
+%	\sin^2(\alpha)=\frac{1}{2}(1-\cos(2\alpha))
+%\end{gather}
+%Also:
+%\begin{gather}
+%	\frac{\left(\frac{4A}{T_h}\right)}{k^2\omega^2}\left[1-\cos(k\pi\frac{T_h}{T})\right]=\frac{\left(\frac{4AT^2}{T_h}\right)}{k^24\pi^2}\left[1-\cos(k\pi\frac{T_h}{T})\right]=\frac{2AT^2}{T_hk^2\pi^2}\cdot\frac{1}{2}\left[1-\cos\left(2k\pi\frac{T_h}{2T}\right)\right]\\
+%	=\frac{2AT^2}{T_hk^2\pi^2}\left[\sin^2\left(k\pi\frac{T_h}{2T}\right)\right]=\frac{T_hA}{2}\frac{4T^2}{T_h^2k^2\pi^2}\left[\sin^2\left(k\pi\frac{T_h}{2T}\right)\right]=\frac{A\cdot T_h}{2}\sinc^2\left(k\pi\frac{T_h}{2T}\right)
+%\end{gather}
 
-
-
-
-
-
+\columnbreak
 \subsection{Fourier Transform (FT)}
+%
 %
 \begin{itemize}
 \setlength\itemsep{-0.5em}
@@ -104,16 +159,19 @@ X(\omega) = \int\limits_{-\infty}^{+\infty} x(t) \,\e^{-\im \omega t}\,\mathrm{d
 \qquad
 x(t) = \frac{1}{2\pi}\int\limits_{-\infty}^{+\infty} X(\omega) \,\e^{+\im \omega t}\,\mathrm{d}\omega
 \end{align*}
+%Fourier Trafo
+\begin{minipage}{\columnwidth}
+\includegraphics[width=\columnwidth,keepaspectratio]{continuous_fouriertrafo_rect}
+\end{minipage}
+
+\begin{minipage}{\columnwidth}
+	\includegraphics[width=\columnwidth,keepaspectratio]{continuous_fouriertrafo_tri}
+\end{minipage}
 
 
 
 
-
-
-
-
-
-
+\columnbreak
 %\hspace{2cm}
 \section{Discrete-Time Domain}
 %
@@ -140,7 +198,10 @@ X(z) = \sum\limits_{k=-\infty}^{+\infty} x[k] \,z^{-k}
 \qquad
 x[k] = \frac{1}{2\pi\im}\oint\limits_{C}^{} X(z) \,z^{k-1}\,\mathrm{d}z
 \end{align*}
-
+\begin{minipage}{\columnwidth}
+	\includegraphics[width=\columnwidth,keepaspectratio]{zTrafo}
+\end{minipage}
+\columnbreak
 \subsection{Discrete-Time Fourier Transform (DTFT)}
 %
 \begin{itemize}
@@ -159,13 +220,76 @@ X(\Omega) = \sum\limits_{k=-\infty}^{+\infty} x[k] \,\e^{-\im \Omega k}
 \qquad
 x[k] = \frac{1}{2\pi}\int\limits_{0}^{2\pi} X(\Omega) \,\e^{+\im \Omega k}\,\mathrm{d}\Omega
 \end{align*}
+%
+%
+\begin{minipage}{\columnwidth}
+	\includegraphics[width=\columnwidth,keepaspectratio]{DTFT_rect.pdf}
+\end{minipage}
 
-
-
-
-
-
-
+%DTFT eines Dreieickes:
+%Faltung von $\mathrm{rect}_[k]$ mit sich selbst ergibt ein Dreieck der Länge
+%$2N+1$ mit Maximum bei N-1.
+%%
+%DTFT durch Multiplikation der DTFTs des Rechtecksignals:
+%%
+%\begin{gather}
+%	\mathrm{rect}_N[k]\ast\mathrm{rect}_N[k]\quad\fourier\quad\e^{-\im\Omega(N-1)}\cdot\frac{\sin^2(N\frac{\Omega}{2})}{\sin^2(\frac{\Omega}{2})}
+%\end{gather}
+%%
+%Mittelpunkt des Dreiecks soll bei 0 liegen, also Verschiebung um $N-1$ nach 
+%links.
+%%
+%Durch Faltung steigt das Dreieck jeweils um 1 bis zu einem Maximum 
+%bei $N-1$ von $N$.
+%%
+%\begin{gather}
+%	N\cdot \mathrm{tri}_{2N+1}[k]=\e^{-\im\Omega(N-1)}\cdot\frac{\sin^2(N\frac{\Omega}{2})}{\sin^2(\frac{\Omega}{2})}\cdot\e^{+j\Omega(N-1)}=\frac{\sin^2(N\frac{\Omega}{2})}{\sin^2(\frac{\Omega}{2})}
+%\end{gather}
+%%
+%N muss noch auf die andere Seite gebracht werden.
+%%
+%\begin{gather}
+%	\mathrm{tri}_{2N+1}[k]\quad\fourier\quad\frac{1}{N}\cdot\frac{\sin^2(N\frac{\Omega}{2})}{\sin^2(\frac{\Omega}{2})}
+%\end{gather}
+%%
+%Dies ist eine Korrespondenz für einen Dreiecksimpuls der Länge $2N+1$ mit der
+%Spitz bei $k=0$.
+%%
+%\begin{gather}
+%	\mathrm{tri}_N[k]=
+%	\begin{cases}
+%		1-\frac{k}{N}, &0 \leq k \leq N,\\
+%		1+\frac{k}{N}, &-N\leq k < 0,\\
+%		0, &\text{sonst}.
+%	\end{cases}
+%\end{gather}
+%%
+%%
+%%
+%\begin{gather}
+%	\lim\limits_{\Omega\rightarrow0}\frac{1}{N}\cdot\frac{\sin^2(N\frac{\Omega}{2})}{\sin^2(\frac{\Omega}{2})}
+%	%
+%	=\lim\limits_{\Omega\rightarrow0}\frac{1}{N}\cdot\frac{2\sin\left(N\frac{\Omega}{2}\right)\cos\left(N\frac{\Omega}{2}\right)\frac{N}{2}}{2\sin\left(\frac{\Omega}{2}\right)\cos\left(\frac{\Omega}{2}\right)\frac{1}{2}}\\
+%	%
+%	=\lim\limits_{\Omega\rightarrow0}
+%	\frac{
+%		%Zaehlers
+%		\cos^2\left(N\frac{\Omega}{2}\right)\frac{N}{2}-\sin^2\left(N\frac{\Omega}{2}\right)\frac{N}{2}
+%	}
+%	%Nenner
+%	{
+%		\cos^2\left(\frac{\Omega}{2}\right)\frac{1}{2}-\sin^2\left(\frac{\Omega}{2}\right)\frac{1}{2}
+%	}
+%	=N
+%\end{gather}
+%
+%
+%
+\begin{minipage}{\columnwidth}
+	\includegraphics[width=\columnwidth,keepaspectratio]{DTFT_tri.pdf}
+\end{minipage}
+%
+\columnbreak
 \subsection{Discrete Fourier Transform (DFT)}
 %
 \begin{itemize}
@@ -185,9 +309,18 @@ X[\mu] = \sum\limits_{k=0}^{N-1} x[k] \,\e^{-\im \frac{2\pi}{N} \mu k}
 x[k] = \frac{1}{N}\sum\limits_{\mu=0}^{N-1} X[\mu] \,\e^{+\im \frac{2\pi}{N} \mu k}
 \end{align*}
 
+\begin{minipage}{\columnwidth}
+	\includegraphics[width=\columnwidth,keepaspectratio]{DFT_rect.pdf}
+\end{minipage}
+
+\begin{minipage}{\columnwidth}
+	\includegraphics[width=\columnwidth,keepaspectratio]{DFT_tri.pdf}
+\end{minipage}
+\columnbreak
+
 \section{Signals and Systems Cheat Sheet}
+\href{https://github.com/robhau}{Robert Hauser},
 \href{https://orcid.org/0000-0002-3010-0294}{Frank Schultz},
-\href{https://orcid.org/0000-0001-7225-9992}{Sascha Spors},
 University of Rostock\\
 \tiny
 \url{https://github.com/spatialaudio/signals-and-systems-cheatsheet}
@@ -195,4 +328,7 @@ University of Rostock\\
 \begin{description}
 \item[v0.00 - 2021/xx/xx] TBD
 \end{description}
+\nocite{sigsysex,Bronstein}
+\bibliography{literatur}
+\bibliographystyle{ieeetran}
 \end{document}

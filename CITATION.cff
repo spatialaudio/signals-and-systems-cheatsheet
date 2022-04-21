@@ -1,0 +1,24 @@
+message: "Please cite this work as below."
+authors:
+- family-names: "Hauser"
+  given-names: "Robert"
+- family-names: "Schultz"
+  given-names: "Frank"
+  orcid: "https://orcid.org/0000-0002-3010-0294" 	
+title: "Continous- and Discrete-Time Signals and Systems - Cheat Sheet"
+version: 1.0
+url: "https://github.com/spatialaudio/signals-and-systems-cheatsheet"
+preferred-citation:
+ type: manual
+ authors:
+ - family-names: "Hauser"
+   given-names: "Robert"
+ - family-names: "Schultz"
+   given-names: "Frank"
+   orcid: "https://orcid.org/0000-0002-3010-0294"
+ version: 1.0
+ title: "Continous- and Discrete-Time Signals and Systems - Cheat Sheet"
+ url: "https://github.com/spatialaudio/signals-and-systems-cheatsheet"
+ year: 2022
+ month: 5
+   
