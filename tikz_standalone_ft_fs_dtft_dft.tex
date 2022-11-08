@@ -1,0 +1,859 @@
+\documentclass[paper=a3paper,landscape]{standalone}
+\usepackage{trfsigns}
+\usepackage{pgfplots}
+\usetikzlibrary{calc}
+\usepackage{xfrac}
+\usepackage{sig_sys_macros}
+\newcommand{\sinc}{\mathrm{sinc}}
+\newcommand{\rect}{\mathrm{rect}}
+\newcommand{\psinc}{\mathrm{psinc}}
+% quadratisches Blatt?
+%\renewcommand{\paperwidth}{\paperheight}
+\begin{document}
+	\begin{tikzpicture}[
+		declare function = {
+			sinc(\t)=sin(deg(\t))/\t*(\t!=0)+1*(\t==0);
+			rect(\t)=and(\t>=-1/2,\t<=1/2);
+			square(\t)= and(mod(\t,2)>=0,mod(\t,2)<1);
+			RECT(\t,\n) = 1*and(\t>=0,\t<\n);
+			diric(\w,\n) =( mod(abs(\w),2*pi)==0)*\n +( mod(abs(\w),2*pi)!=0)*sin(deg(\n/2*abs(\w)))/sin(deg(abs(\w)/2));
+			diric2(\u,\m,\n)=( mod(abs(\u),\n)==0)*\m +(mod(abs(\u),\n)!=0)*sin(deg(\m/\n*pi*\u))/sin(deg(1/\n*pi*\u));
+		},
+		]
+		%
+		% Periode und Impulsbreite
+		\newcommand{\T}{5}
+		\newcommand{\Th}{2}
+		% Schriftgröße der labels
+		\newcommand{\FONTSIZE}{\scriptsize}
+		% Schriftgröße der Pfeile im Mittelkreuz
+		\newcommand{\FONTSIZECROSSARROWS}{\large}
+		% Farbe des Zeitbereiches
+		\newcommand{\TCOLOR}{C0}
+		% Farbe des Frequenzbereiches
+		\newcommand{\FCOLOR}{C2}
+		% Dicke der kontinuierlichen Funktionen
+		\newcommand{\LINEWIDTH}{ultra thick}
+		% Größe der Marker der diskreten Funktionen
+		\newcommand{\MARKSIZE}{1.6pt}
+		\pgfmathsetmacro{\W}{pi}
+		\pgfmathsetmacro{\PAPERWIDTHSQUARED}{\paperwidth/32/32*\paperwidth}
+		\pgfmathsetmacro{\PAPERHEIGHTSQUARED}{\paperheight/32/32*\paperheight}
+		\pgfmathsetmacro{\ANGLE}{atan(\paperheight/\paperwidth)}
+		%
+		%
+		%
+		\draw[red, ultra thick] (0,0) rectangle (\paperwidth,\paperheight);
+		%
+		%
+		%
+		%Kreuz in der Mitte
+		%
+		\draw[red,ultra thick] (3/8*\paperwidth,1/2*\paperheight) -- (5/8*\paperwidth,1/2*\paperheight);
+		\draw[red,ultra thick] (1/2*\paperwidth,3/8*\paperheight) -- (1/2*\paperwidth,5/8*\paperheight);
+		%
+		%
+		%
+		%Fortsetzung der Kreuzlinien am Rand
+		%
+		\draw[red,ultra thick] (0,1/2*\paperheight) -- (1/8*\paperwidth,1/2*\paperheight);
+		\draw[red,ultra thick] (7/8*\paperwidth,1/2*\paperheight) -- (\paperwidth,1/2*\paperheight);
+		\draw[red,ultra thick] (1/2*\paperwidth,0) -- (1/2*\paperwidth,1/8*\paperheight);
+		\draw[red,ultra thick] (1/2*\paperwidth,7/8*\paperheight) -- (1/2*\paperwidth,\paperheight);
+		%
+		%
+		%
+		% Abkürzungen der Transformationen in den Ecken
+		%
+		\node[anchor=north west] at (0,\paperheight) (FT) {\Huge \textbf{FT}};
+		\node[anchor=north east] at (\paperwidth,\paperheight) (FS) {\Huge \textbf{FS}};
+		\node[anchor=south west] at (0,0) (DTFT) {\Huge \textbf{DTFT}};
+		\node[anchor=south east] at (\paperwidth,0) (DFT) {\Huge \textbf{DFT}};
+		%
+		%
+		% FT Plots
+		%
+		% rect Zeitbereich
+		\begin{axis}[
+			axis lines = middle,
+			axis line style = {-latex},
+			xlabel = {$t$},
+			x label style = {anchor=north},
+			ylabel = {$x(t)$},
+			y label style={anchor=west},
+			width = 18/80*\paperwidth,
+			height = 18/80*\paperheight,
+			at = {(1/10*\paperwidth,19/20*\paperheight)},
+			xtick = {-7.5,-5,...,7.5},
+			xticklabels = { ,$-T_0$,,,$+T_0$,},
+			ytick = {0,0.5,1},
+			yticklabels = {},
+			ticklabel style = {font=\FONTSIZE},
+			grid = major,
+			ymin = -0.25,
+			ymax = 1.125,
+			xmin = -8.5,
+			xmax = 8.5,
+			anchor = north,
+			]
+			\addplot[domain=-7.5:7.5,
+			samples = 1001,
+			color=\TCOLOR,
+			\LINEWIDTH,]
+			{rect(x/\Th)};
+			\node[anchor=center] at (axis cs:-2.5,1) {\FONTSIZE $1$};
+		\end{axis}
+		%
+		% rect Frequenzbereich
+		%
+		\begin{axis}[
+			axis lines = middle,
+			axis line style = {-latex},
+			xlabel = {$\omega$},
+			x label style = {anchor=north},
+			ylabel = {$X\left(\omega\right)$},
+			y label style={anchor=west},
+			xtick = {-6*pi,-4*pi,...,6*pi},
+			xticklabels = {,$-10\omega_0$,,,$+10\omega_0$,},
+			ytick = {0,1,2},
+			yticklabels = {},
+			ticklabel style={font=\FONTSIZE},
+			grid = major,
+			width = 18/80*\paperwidth,
+			height = 18/80*\paperheight,
+			at = {(3/10*\paperwidth,19/20*\paperheight)},
+			ymin = -0.5,
+			ymax = 2.25,
+			xmin = -17/15*6*pi,
+			xmax = 17/15*6*pi,
+			anchor = north,
+			]
+			\addplot[domain=-6*pi:6*pi,
+			samples = 1001,
+			color=\FCOLOR,
+			\LINEWIDTH,]
+			{\Th*sinc(x)};
+			\node[anchor=center] at (axis cs:-5*2*pi/\T,2) {\FONTSIZE $2$};
+		\end{axis}
+		%
+		% sinc Zeitbereich
+		%
+		\begin{axis}[
+			axis lines = middle,
+			axis line style = {-latex},
+			xlabel = {$t$},
+			x label style = {anchor=north},
+			ylabel = {$y(t)$},
+			y label style={anchor=west},
+			width = 18/80*\paperwidth,
+			height = 18/80*\paperheight,
+			at = {(1/10*\paperwidth,12/20*\paperheight)},
+			xtick = {-7.5,-5,...,7.5},
+			xticklabels = { ,$-T_0$,,,$+T_0$,},
+			ytick = {0,0.5,1},
+			yticklabels = {},
+			ticklabel style={font=\FONTSIZE},
+			grid = major,
+			ymin = -0.25,
+			ymax = 1.125,
+			xmin = -8.5,
+			xmax = 8.5,
+			anchor = south,
+			]
+			\addplot[domain=-7.5:7.5,
+			samples = 1001,
+			color=\TCOLOR,
+			\LINEWIDTH,]
+			{sinc(x*\W)};
+			\node[anchor=center] at (axis cs:-2.5,1) {\FONTSIZE $1$};
+		\end{axis}
+		%
+		% sinc Frequenzbereich
+		%
+		\begin{axis}[
+			axis lines = center,
+			axis line style = {-latex},
+			xlabel = {$\omega$},
+			x label style = {anchor=north},
+			ylabel = {$Y\left(\omega\right)$},
+			y label style={anchor=west},
+			width = 18/80*\paperwidth,
+			height = 18/80*\paperheight,
+			at = {(3/10*\paperwidth,12/20*\paperheight)},
+			xtick = {-6*pi,-4*pi,...,6*pi},
+			xticklabels = {,$-10\omega_0$,,,$+10\omega_0$,},
+			ytick = {0,0.5,1},
+			yticklabels = {},
+			ticklabel style={font=\FONTSIZE},
+			grid=major,
+			ymin = -0.25,
+			ymax = 1.125,
+			xmin = -17/15*6*pi,
+			xmax = 17/15*6*pi,
+			anchor=south,
+			]
+			\addplot[domain=-6*pi:6*pi,
+			samples = 1001,
+			color=\FCOLOR,
+			\LINEWIDTH,]
+			{pi/(\W)*rect(x/2*1/(\W))};
+			\node[anchor=center] at (axis cs:-5*2*pi/\T,1) {\FONTSIZE $1$};
+		\end{axis}
+		%
+		%
+		%
+		% FS Plots
+		%
+		% rect Zeitbereich
+		\begin{axis}[
+			axis lines = middle,
+			axis line style = {-latex},
+			xlabel = {$t$},
+			x label style = {anchor=north},
+			ylabel = {$x(t)$},
+			y label style={anchor=west},
+			width = 18/80*\paperwidth,
+			height = 18/80*\paperheight,
+			at = {(7/10*\paperwidth,19/20*\paperheight)},
+			xtick = {-7.5,-5,...,7.5},
+			xticklabels = { ,$-T_0$,,,$+T_0$,},
+			ytick = {0,0.5,1},
+			yticklabels = {},
+			ticklabel style={font=\FONTSIZE},
+			grid = major,
+			ymin = -0.25,
+			ymax = 1.125,
+			xmin = -8.5,
+			xmax = 8.5,
+			anchor = north,
+			]
+			\addplot[domain=-7.5:7.5,
+			samples = 1001,
+			color=\TCOLOR,
+			\LINEWIDTH,]
+			{rect(x/\Th)+rect((x-\T)/\Th)+rect((x+\T)/\Th)};
+			\node[anchor=center] at (axis cs:-2.5,1) {\FONTSIZE $1$};
+		\end{axis}
+		%
+		% rect Frequenzbereich
+		%
+		\begin{axis}[
+			axis lines = middle,
+			axis line style = {-latex},
+			xlabel = {$\mu$},
+			x label style = {anchor=north},
+			ylabel = {$\tilde{X}\left[\mu\right]$},
+			y label style={anchor=west},
+			xtick = {-15,-10,...,15},
+			xticklabels = {,$-10$,,,$+10$,},
+			ytick = {0,1,2},
+			yticklabels = {},
+			ticklabel style={font=\FONTSIZE},
+			width = 18/80*\paperwidth,
+			height = 18/80*\paperheight,
+			at = {(9/10*\paperwidth,19/20*\paperheight)},
+			grid = major,
+			ymin = -0.5,
+			ymax = 2.25,
+			xmin = -17,,
+			xmax = 17,
+			anchor = north,
+			]
+			\addplot[domain=-15:15,
+			samples = 31,
+			color=\FCOLOR,
+			ycomb,
+			mark=*,
+			mark size = \MARKSIZE,]
+			{\Th*sinc(x*pi*\Th/\T)};
+			\node[anchor=center] at (axis cs:-5,2) {\FONTSIZE $2$};
+		\end{axis}
+		%
+		% sinc Zeitbereich
+		%
+		\begin{axis}[
+			axis lines = middle,
+			axis line style = {-latex},
+			xlabel = {$t$},
+			x label style = {anchor=north},
+			ylabel = {$y(t)$},
+			y label style={anchor=west},
+			width = 18/80*\paperwidth,
+			height = 18/80*\paperheight,
+			at = {(7/10*\paperwidth,12/20*\paperheight)},
+			xtick = {-7.5,-5,...,7.5},
+			xticklabels = { ,$-T_0$,,,$+T_0$,},
+			ytick = {0,0.5,1},
+			yticklabels = {},
+			ticklabel style={font=\FONTSIZE},
+			grid = major,
+			anchor = south,
+			ymin = -0.25,
+			ymax = 1.125,
+			xmin = -8.5,
+			xmax = 8.5,
+			]
+			\addplot[domain=-7.5:7.5,
+			samples = 1001,
+			color=\TCOLOR,
+			\LINEWIDTH,]
+			{diric(x/5*2*pi,5)/5};
+			\node[anchor=center] at (axis cs:-2.5,1) {\FONTSIZE $1$};
+		\end{axis}
+		%
+		% sinc Frequenzbereich
+		%
+		\begin{axis}[
+			axis lines = center,
+			axis line style = {-latex},
+			xlabel = {$\mu$},
+			x label style = {anchor=north},
+			ylabel = {$\tilde{Y}\left[\mu\right]$},
+			y label style={anchor=west},
+			width = 18/80*\paperwidth,
+			height = 18/80*\paperheight,
+			at = {(9/10*\paperwidth,12/20*\paperheight)},
+			xtick = {-15,-10,...,15},
+			xticklabels = {,$-10$,,,$+10$,},
+			ytick = {0,0.5,1},
+			yticklabels = {},
+			ticklabel style={font=\FONTSIZE},
+			grid = major,
+			ymin = -0.25,
+			ymax = 1.125,
+			xmin = -17,
+			xmax = 17,
+			anchor=south,
+			]
+			\addplot[domain=-15:15,
+			samples = 31,
+			color=\FCOLOR,
+			ycomb,
+			mark=*,
+			mark options = {scale=0.75},]
+			{rect(x/4)};
+			\node[anchor=center] at (axis cs:-5,1) {\FONTSIZE $1$};
+		\end{axis}
+		%
+		%
+		%
+		%
+		% DTFT Plots
+		%
+		% rect Zeitbereich
+		\begin{axis}[
+			axis lines = middle,
+			axis line style = {-latex},
+			xlabel = {$k$},
+			x label style = {anchor=north},
+			ylabel = {$xk[k]$},
+			y label style={anchor=west},
+			width = 18/80*\paperwidth,
+			height = 18/80*\paperheight,
+			at = {(1/10*\paperwidth,8/20*\paperheight)},
+			xtick = {-15,-10,...,15},
+			xticklabels = {,$-10$,,,$+10$,},
+			ytick = {0,0.5,1},
+			yticklabels = {},
+			ticklabel style={font=\FONTSIZE},
+			grid = major,
+			ymin = -0.25,
+			ymax = 1.125,
+			xmin = -17,
+			xmax = 17,
+			anchor = north,
+			]
+			\addplot[domain=-15:15,
+			samples = 31,
+			color=\TCOLOR,
+			ycomb,
+			mark=*,
+			mark size = \MARKSIZE,]
+			{RECT(x+2,5)};
+			\node[anchor=center] at (axis cs:-5,1) {\FONTSIZE $1$};
+		\end{axis}
+		%
+		% rect Frequenzbereich
+		%
+		\begin{axis}[
+			axis lines = middle,
+			axis line style = {-latex},
+			xlabel = {$\Omega$},
+			x label style = {anchor=north},
+			ylabel = {$X\left(\Omega\right)$},
+			y label style={anchor=west},
+			width = 18/80*\paperwidth,
+			height = 18/80*\paperheight,
+			at = {(3/10*\paperwidth,8/20*\paperheight)},
+			xtick = {-3*pi,-2*pi,...,3*pi},
+			xticklabels = {,$-2\pi$,,,$+2\pi$,},
+			ytick = {0,2.5,5},
+			yticklabels = {},
+			ticklabel style={font=\FONTSIZE},
+			grid = major,
+			ymin = -1.25,
+			ymax = 5.625,
+			xmin = -17/15*3*pi,
+			xmax = 17/15*3*pi,
+			anchor = north,
+			]
+			\addplot[domain=-3*pi:3*pi,
+			samples = 1001,
+			color=\FCOLOR,
+			\LINEWIDTH,]
+			{diric(x,5)};
+			\node[anchor=center] at (axis cs:-pi,5) {\FONTSIZE $5$};
+		\end{axis}
+		%
+		% sinc Zeitbereich
+		%
+		\begin{axis}[
+			axis lines = middle,
+			axis line style = {-latex},
+			xlabel = {$k$},
+			x label style = {anchor=north},
+			ylabel = {$y[k]$},
+			y label style={anchor=west},
+			width = 18/80*\paperwidth,
+			height = 18/80*\paperheight,
+			at = {(1/10*\paperwidth,1/20*\paperheight)},
+			xtick = {-15,-10,...,15},
+			xticklabels = {,$-10$,,,$+10$,},
+			ytick = {0,0.5,1},
+			yticklabels = {},
+			ticklabel style={font=\FONTSIZE},
+			grid = major,
+			ymin = -0.25,
+			ymax = 1.125,
+			xmin = -17,
+			xmax = 17,
+			anchor = south,
+			]
+			\addplot[domain=-15:15,
+			samples = 31,
+			color=\TCOLOR,
+			ycomb,
+			mark=*,
+			mark size = \MARKSIZE,]
+			{sinc(x/2*pi)};
+			\node[anchor=center] at (axis cs:-5,1) {\FONTSIZE $1$};
+		\end{axis}
+		%
+		% sinc Frequenzbereich
+		%
+		\begin{axis}[
+			axis lines = center,
+			axis line style = {-latex},
+			xlabel = {$\Omega$},
+			x label style = {anchor=north},
+			ylabel = {$Y\left(\Omega\right)$},
+			y label style={anchor=west},
+			width = 18/80*\paperwidth,
+			height = 18/80*\paperheight,
+			at = {(3/10*\paperwidth,1/20*\paperheight)},
+			xtick = {-3*pi,-2*pi,...,3*pi},
+			xticklabels = {,$-2\pi$,,,$+2\pi$,},
+			ytick = {0,1,2},
+			yticklabels = {},
+			ticklabel style={font=\FONTSIZE},
+			grid = major,
+			ymin = -0.5,
+			ymax = 2.25,
+			xmin = -17/15*3*pi,
+			xmax = 17/15*3*pi,
+			anchor=south,
+			]
+			\addplot[domain=-3*pi:3*pi,
+			samples = 1001,
+			color=\FCOLOR,
+			\LINEWIDTH,]
+			{2*rect(x/pi)+2*rect((x-2*pi)/pi)+2*rect((x+2*pi)/pi)};
+			\node[anchor=center] at (axis cs:-pi,2) {\FONTSIZE $2$};
+		\end{axis}
+		%
+		%
+		%
+		% DFT Plots
+		%
+		% rect Zeitbereich
+		\begin{axis}[
+			axis lines = middle,
+			axis line style = {-latex},
+			xlabel = {$k$},
+			x label style = {anchor=north},
+			ylabel = {$x[k]$},
+			y label style={anchor=west},
+			width = 18/80*\paperwidth,
+			height = 18/80*\paperheight,
+			at = {(7/10*\paperwidth,8/20*\paperheight)},
+			xtick = {-15,-10,...,15},
+			xticklabels = {,$-10$,,,$+10$,},
+			ytick = {0,0.5,1},
+			yticklabels = {},
+			ticklabel style={font=\FONTSIZE},
+			grid = major,
+			ymin = -0.25,
+			ymax = 1.125,
+			xmin = -17,
+			xmax = 17,
+			anchor = north,
+			]
+			\addplot[domain=-15:15,
+			samples = 31,
+			color=\TCOLOR,
+			ycomb,
+			mark=*,
+			mark size = \MARKSIZE,]
+			{RECT(x+2,5)+RECT(x+2+2*\T,5)+RECT(x+2-2*\T,5)};
+			\node[anchor=center] at (axis cs:-5,1) {\FONTSIZE $1$};
+		\end{axis}
+		%
+		% rect Frequenzbereich
+		%
+		\begin{axis}[
+			axis lines = middle,
+			axis line style = {-latex},
+			xlabel = {$\mu$},
+			x label style = {anchor=north},
+			ylabel = {$X\left[\mu\right]$},
+			y label style={anchor=west},
+			width = 18/80*\paperwidth,
+			height = 18/80*\paperheight,
+			xtick = {-15,-10,...,15},
+			xticklabels = {,$-10$,,,$+10$,},
+			ytick = {0,2.5,5},
+			yticklabels = {},
+			ticklabel style={font=\FONTSIZE},
+			at = {(9/10*\paperwidth,8/20*\paperheight)},
+			grid = major,
+			ymin = -1.25,
+			ymax = 5.625,
+			xmin = -17,
+			xmax = +17,
+			anchor = north,
+			]
+			\addplot[domain=-15:15,
+			samples = 31,
+			color=\FCOLOR,
+			ycomb,
+			mark=*,
+			mark size = \MARKSIZE,
+			]
+			{diric2(x,5,10)};
+			\node[anchor=center] at (axis cs:-5,5) {\FONTSIZE $5$};
+		\end{axis}
+		%
+		% sinc Zeitbereich
+		%
+		\begin{axis}[
+			axis lines = middle,
+			axis line style = {-latex},
+			xlabel = {$k$},
+			x label style = {anchor=north},
+			ylabel = {$y[k]$},
+			y label style={anchor=west},
+			width = 18/80*\paperwidth,
+			height = 18/80*\paperheight,
+			at = {(7/10*\paperwidth,1/20*\paperheight)},
+			xtick = {-15,-10,...,15},
+			xticklabels = {,$-10$,,,$+10$,},
+			ytick = {0,0.5,1},
+			yticklabels = {},
+			ticklabel style={font=\FONTSIZE},
+			grid = major,
+			ymin = -0.25,
+			ymax = 1.125,
+			xmin = -17,
+			xmax = 17,
+			anchor = south,
+			]
+			\addplot[domain=-15:15,
+			samples = 31,
+			color=\TCOLOR,
+			ycomb,
+			mark=*,
+			mark size = \MARKSIZE,]
+			{diric(x*2*pi/10,5)/5};
+			\node[anchor=center] at (axis cs:-5,1) {\FONTSIZE $1$};
+		\end{axis}
+		%
+		% sinc Frequenzbereich
+		%
+		\begin{axis}[
+			axis lines = center,
+			axis line style = {-latex},
+			xlabel = {$\mu$},
+			x label style = {anchor=north},
+			ylabel = {$Y\left[\mu\right]$},
+			y label style={anchor=west},
+			width = 18/80*\paperwidth,
+			height = 18/80*\paperheight,
+			at = {(9/10*\paperwidth,1/20*\paperheight)},
+			xtick = {-15,-10,...,15},
+			xticklabels = {,$-10$,,,$+10$,},
+			ytick = {0,1,2},
+			yticklabels = {},
+			ticklabel style={font=\scriptsize},
+			grid = major,
+			ymin = -0.5,
+			ymax = 2.25,
+			xmin = -17,
+			xmax = 17,
+			anchor=south,
+			]
+			\addplot[domain=-15:15,
+			samples = 31,
+			color=\FCOLOR,
+			ycomb,
+			mark = *,
+			mark size = \MARKSIZE,]
+			{RECT(x+2,5)*2+RECT(x+2+\T*2,5)*2+RECT(x+2-\T*2,5)*2};
+			\node[anchor=center] at (axis cs:-5,2) {\FONTSIZE $2$};
+		\end{axis}
+		%
+		% BEZIEHUNG ZWISCHEN FT UND FS
+		%
+		%
+		% omega zwischen FT und FS
+		%
+		\node at (22/40*\paperwidth,6/8*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\omega}$};
+		%
+		% t zwischen FT und FS
+		%
+		\node at (18/40*\paperwidth,6/8*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{t}$};
+		%
+		% geöffneter Feil von FT zu FS
+		%
+		% erstes Drittel
+		%
+		\draw[black,thick] (17/40*\paperwidth,25/32*\paperheight) -- (19/40*\paperwidth,25/32*\paperheight);
+		%
+		% zweites Drittel (30 ° Öffnung)
+		%
+		% sqrt(3) approx 1.732050808
+		%
+		\draw[black,thick] (19/40*\paperwidth,25/32*\paperheight) -- (19/40*\paperwidth+1.732050808/2*2/40*\paperwidth,25/32*\paperheight+1/2*2/40*\paperwidth);
+		%
+		% leztes Drittel
+		%
+		\draw[black,thick,-latex] (21/40*\paperwidth,25/32*\paperheight) -- (23/40*\paperwidth,25/32*\paperheight);
+		%
+		% Dirac Impulskämme über geöffnetem Pfeil
+		%
+		\node at (22/40*\paperwidth,27/32*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\cdot\Sha}$};
+		%
+		\node at (18/40*\paperwidth,27/32*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{\ast\Sha}$};
+		%
+		% geschlossener Pfeil von FS zu FT
+		%
+		\draw[black,thick,latex-] (17/40*\paperwidth,23/32*\paperheight) -- (23/40*\paperwidth,23/32*\paperheight);
+		%
+		% Faltung sinc unter geschlossener Pfeil
+		%
+		\node at (22/40*\paperwidth,21/32*\paperheight) [align=center,color=\FCOLOR] {\huge $\mathbf{\ast\sinc}$};
+		%
+		% Multiplikation rect unter geschlossenen Pfeil
+		%
+		\node at (18/40*\paperwidth,21/32*\paperheight) [align=center,color=\TCOLOR] {\huge $\mathbf{\cdot\rect}$};
+		%
+		%
+		%
+		%
+		%
+		%
+		%
+		%
+		%
+		% BEZIEHUNG ZWISCHEN DTFT UND DFT
+		%
+		%
+		% omega zwischen DTFT und DTFT
+		%
+		\node at (22/40*\paperwidth,2/8*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\omega}$};
+		%
+		% t zwischen DTFT und DFT
+		%
+		\node at (18/40*\paperwidth,2/8*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{t}$};
+		%
+		% geöffneter Feil von DTFT zu DFT
+		%
+		% erstes Drittel
+		%
+		\draw[,thick] (17/40*\paperwidth,9/32*\paperheight) -- (19/40*\paperwidth,9/32*\paperheight);
+		%
+		% zweites Drittel (30 ° Öffnung)
+		%
+		% sqrt(3) approx 1.732050808
+		%
+		\draw[black,thick] (19/40*\paperwidth,9/32*\paperheight) -- (19/40*\paperwidth+1.732050808/2*2/40*\paperwidth,9/32*\paperheight+1/2*2/40*\paperwidth);
+		%
+		% leztes Drittel
+		%
+		\draw[black,thick,-latex] (21/40*\paperwidth,9/32*\paperheight) -- (23/40*\paperwidth,9/32*\paperheight);
+		%
+		% Dirac Impulskämme unter geöffnetem Pfeil
+		%
+		\node at (22/40*\paperwidth,11/32*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\cdot\Sha}$};
+		%
+		\node at (18/40*\paperwidth,11/32*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{\ast\Sha}$};
+		%
+		% geschlossener Pfeil von DTFT zu DFT
+		%
+		\draw[black,thick,latex-] (17/40*\paperwidth,7/32*\paperheight) -- (23/40*\paperwidth,7/32*\paperheight);
+		%
+		% Faltung sinc über geschlossener Pfeil
+		%
+		\node at (22/40*\paperwidth,5/32*\paperheight) [align=center,color=\FCOLOR] {\huge $\mathbf{\ast\psinc}$};
+		%
+		% Multiplikation rect über geschlossenen Pfeil
+		%
+		\node at (18/40*\paperwidth,5/32*\paperheight) [align=center,color=\TCOLOR] {\huge $\mathbf{\cdot\rect}$};
+		%
+		%
+		%
+		% BEZIEHUNG ZWISCHEN FT UND DTFT
+		%
+		%
+		% omega zwischen FT und DTFT
+		%
+		\node at (1/4*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge $\mathbf{\omega}$};
+		%
+		% t zwischen FT und FS
+		%
+		\node at (1/4*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\Huge $\mathbf{t}$};
+		%
+		% geöffneter Feil von FT zu DTFT
+		%
+		% erstes Drittel
+		% 7/32
+		\draw[black,thick] (9/32*\paperwidth,23/40*\paperheight) -- (9/32*\paperwidth,21/40*\paperheight);
+		%
+		% zweites Drittel (30 ° Öffnung)
+		%
+		% sqrt(3) approx 1.732050808
+		%
+		\draw[black,thick] (9/32*\paperwidth,21/40*\paperheight) -- (9/32*\paperwidth+1/2*2/40*\paperheight,21/40*\paperheight-1.732050808/2*2/40*\paperheight);
+		%
+		% leztes Drittel
+		%
+		\draw[black,thick,-latex] (9/32*\paperwidth,19/40*\paperheight) -- (9/32*\paperwidth,17/40*\paperheight);
+		%
+		% Dirac Impulskämme über geöffnetem Pfeil
+		% 
+		\node at (11/32*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge $\mathbf{\ast\Sha}$};
+		%
+		\node at (11/32*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\Huge $\mathbf{\cdot\Sha}$};
+		%
+		% geschlossener Pfeil von DTFT zu FT
+		% 
+		\draw[black,thick,-latex] (7/32*\paperwidth,17/40*\paperheight) -- (7/32*\paperwidth,23/40*\paperheight);
+		%
+		% Faltung sinc unter geschlossenem Pfeil
+		%
+		\node at (5/32*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\huge $\mathbf{\cdot\rect}$};
+		%
+		% Multiplikation rect über geschlossenen Pfeil
+		%
+		\node at (5/32*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\huge $\mathbf{\ast\sinc}$};
+		%
+		%
+		%
+		% BEZIEHUNG ZWISCHEN FS UND DFT
+		%
+		%
+		% omega zwischen FS und DFT
+		%
+		\node at (3/4*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge $\mathbf{\omega}$};
+		%
+		% t zwischen FS und DFT
+		%
+		\node at (3/4*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\Huge $\mathbf{t}$};
+		%
+		% geöffneter Feil von FS zu DFT
+		%
+		% erstes Drittel
+		% 7/32
+		\draw[black,thick] (25/32*\paperwidth,23/40*\paperheight) -- (25/32*\paperwidth,21/40*\paperheight);
+		%
+		% zweites Drittel (30 ° Öffnung)
+		%
+		% sqrt(3) approx 1.732050808
+		%
+		\draw[black,thick] (25/32*\paperwidth,21/40*\paperheight) -- (25/32*\paperwidth+1/2*2/40*\paperheight,21/40*\paperheight-1.732050808/2*2/40*\paperheight);
+		%
+		% leztes Drittel
+		%
+		\draw[black,thick,-latex] (25/32*\paperwidth,19/40*\paperheight) -- (25/32*\paperwidth,17/40*\paperheight);
+		%
+		% Dirac Impulskämme über geöffnetem Pfeil
+		% 
+		\node at (27/32*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge $\mathbf{\ast\Sha}$};
+		%
+		\node at (27/32*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{\cdot\Sha}$};
+		%
+		% geschlossener Pfeil von DFT zu FS
+		% 
+		\draw[black,thick,-latex] (23/32*\paperwidth,17/40*\paperheight) -- (23/32*\paperwidth,23/40*\paperheight);
+		%
+		% Faltung psinc links von geschlossenem Pfeil
+		%
+		\node at (21/32*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\huge $\mathbf{\cdot\rect}$};
+		%
+		% Multiplikation rect über geschlossenen Pfeil
+		%
+		\node at (21/32*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\huge $\mathbf{\ast\psinc}$};
+		%
+		%
+		%
+		%
+		%
+		%
+		% arrow from FS to DTFT
+		%
+		\draw[-latex] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=\ANGLE,color=\TCOLOR,xshift=-1/80*\paperwidth] {\FONTSIZE Aperiodic + Sampling}
+		node[below,rotate=\ANGLE,color=\FCOLOR,xshift=-1/80*\paperwidth] {\FONTSIZE Periodic + Interpolation} (7.75/20*\paperwidth,7.75/20*\paperheight);
+		%
+		%
+		% arrow from DTFT to FS
+		%
+		\draw[-latex] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=\ANGLE,color=\TCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Periodic + Interpolation}
+		node[below,rotate=\ANGLE,color=\FCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Aperiodic + Sampling} (12.25/20*\paperwidth,12.25/20*\paperheight);
+		%
+		%
+		% arrow from FT to DFT
+		%
+		\draw[-latex] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=-\ANGLE,color=\TCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Periodic + Sampling}
+		node[below,rotate=-\ANGLE,color=\FCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Periodic + Sampling} (12.25/20*\paperwidth,7.75/20*\paperheight);
+		%
+		%
+		% arrow from DFT to FT
+		%
+		\draw[-latex] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=-\ANGLE,color=\TCOLOR,xshift=-1/80*\paperwidth] {\FONTSIZE Aperiodic + Interpolation}
+		node[below,rotate=-\ANGLE,color=\FCOLOR,xshift=-1/80*\paperwidth] {\FONTSIZE Aperiodic + Interpolation} (7.75/20*\paperwidth,12.25/20*\paperheight);
+		%
+		%
+		%
+		%
+		%
+		%
+		%
+		%
+		%
+		%\draw[black,ultra thick] (0.5/20*\paperwidth,0) -- (0.5/20*\paperwidth,\paperheight);
+		%\draw[black,ultra thick] (8/20*\paperwidth,0) -- (8/20*\paperwidth,\paperheight);
+		%
+		%
+		%\draw[black,ultra thick] (19.5/20*\paperwidth,0) -- (19.5/20*\paperwidth,\paperheight);
+		%\draw[black,ultra thick] (12/20*\paperwidth,0) -- (12/20*\paperwidth,\paperheight);
+		%
+		%
+		%\draw[black,ultra thick] (0,0.5/20*\paperheight) -- (\paperwidth,0.5/20*\paperheight);
+		%\draw[black,ultra thick] (0,8/20*\paperheight) -- (\paperwidth,8/20*\paperheight);
+		%
+		%
+		%\draw[black,ultra thick] (0,12/20*\paperheight) -- (\paperwidth,12/20*\paperheight);
+		%\draw[black,ultra thick] (0,19.5/20*\paperheight) -- (\paperwidth,19.5/20*\paperheight);
+		%
+		%
+	\end{tikzpicture}
+\end{document}
