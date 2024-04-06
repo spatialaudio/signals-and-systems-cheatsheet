@@ -75,10 +75,10 @@
 		%
 		\node[anchor=north west] at (11/64*\paperwidth,17/20*\paperheight) (wcFT) {\FONTSIZE $\omega_c = \frac{2\pi}{T_c}$};
 		\node[anchor=north west] at (25/32*\paperwidth,17/20*\paperheight) (woFS) {\FONTSIZE $\omega_0 = \frac{2\pi}{T_0}$};
-		\node[anchor=north west] at (25/32*\paperwidth,7/20*\paperheight) (NFFT) {\FONTSIZE $N=10$};
-		\node[anchor=north west] at (24.5/32*\paperwidth,6.5/20*\paperheight) (NFFTnote) {\FONTSIZE exact DFT pair};
-		\node[anchor=north west] at (11/64*\paperwidth,7/20*\paperheight) (WcDTFT) {\FONTSIZE $\Omega_c = \frac{2\pi}{K_c}$};
-		\node[anchor=north west] at (11/64*\paperwidth,6.5/20*\paperheight) (WcDTFTfor) {\FONTSIZE here for $K_c=2$};
+		\node[anchor=north west] at (25/32*\paperwidth,5/20*\paperheight) (NFFT) {\FONTSIZE $N=10$};
+		\node[anchor=north west] at (24.5/32*\paperwidth,4.5/20*\paperheight) (NFFTnote) {\FONTSIZE exact DFT pair};
+		\node[anchor=north west] at (11/64*\paperwidth,5/20*\paperheight) (WcDTFT) {\FONTSIZE $\Omega_c = \frac{2\pi}{K_c}$};
+		\node[anchor=north west] at (11/64*\paperwidth,4.5/20*\paperheight) (WcDTFTfor) {\FONTSIZE here for $K_c=2$};
 		%
 		\node[anchor=north west] at (48.5/128*\paperwidth,2/128*\paperheight) (author) {\tiny Robert Hauser, Frank Schultz, University of Rostock, \url{https://github.com/spatialaudio/signals-and-systems-cheatsheet}, CC BY 4.0, 2024-04-06};
 		% FT Plots
@@ -236,7 +236,7 @@
 			y label style={anchor=west},
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
-			at = {(1/10*\paperwidth,4/20*\paperheight)},
+			at = {(1/10*\paperwidth,6/20*\paperheight)},
 			xtick = {-15,-10,-5,0,2,5,10,15},
 			xticklabels = {,,$-5$,,$K_c$,$+5$,$+10$,},
 			ytick = {0,0.5,1},
@@ -247,7 +247,7 @@
 			ymax = 1.125,
 			xmin = -17,
 			xmax = 17,
-			anchor = south,
+			anchor = north,
 			]
 			\addplot[domain=-15:15,
 			samples = 31,
@@ -270,7 +270,7 @@
 			y label style={anchor=west},
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
-			at = {(3/10*\paperwidth,4/20*\paperheight)},
+			at = {(3/10*\paperwidth,6/20*\paperheight)},
 			xtick = {-3*pi,-2*pi,-1*pi,-pi/2,0,pi/2,1*pi,2*pi,3*pi},
 			xticklabels = {,$-2\pi$,,$\frac{-\Omega_c}{2}$,,$\frac{+\Omega_c}{2}$,,$2\pi$,},
 			ytick = {0,1,2},
@@ -281,7 +281,7 @@
 			ymax = 2.25,
 			xmin = -17/15*3*pi,
 			xmax = 17/15*3*pi,
-			anchor=south,
+			anchor=north,
 			]
 			\addplot[domain=-3*pi:3*pi,
 			samples = 257,
@@ -307,7 +307,7 @@
 			y label style={anchor=west},
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
-			at = {(7/10*\paperwidth,4/20*\paperheight)},
+			at = {(7/10*\paperwidth,6/20*\paperheight)},
 			xtick = {-15,-10,-5,0,5,10,15},
 			xticklabels = {,,$-5$,,$+5$,$+10$,},
 			ytick = {0,0.5,1},
@@ -318,7 +318,7 @@
 			ymax = 1.125,
 			xmin = -17,
 			xmax = 17,
-			anchor = south,
+			anchor = north,
 			]
 			\addplot[domain=-15:15,
 			samples = 31,
@@ -341,7 +341,7 @@
 			y label style={anchor=west},
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
-			at = {(9/10*\paperwidth,4/20*\paperheight)},
+			at = {(9/10*\paperwidth,6/20*\paperheight)},
 			xtick = {-15,-10,-5,0,5,10,15},
 			xticklabels = {,,$-5$,,$+5$,$+10$,},
 			ytick = {0,1,2},
@@ -352,7 +352,7 @@
 			ymax = 2.25,
 			xmin = -17,
 			xmax = 17,
-			anchor=south,
+			anchor=north,
 			]
 			\addplot[domain=-15:15,
 			samples = 31,
@@ -371,7 +371,7 @@
 		%
 		\node at (22/40*\paperwidth,6/8*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\omega}$};
 		%
-		% t zwischen FT und FS
+		% t between FT and FS
 		%
 		\node at (18/40*\paperwidth,6/8*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{t}$};
 		%
@@ -405,33 +405,33 @@
 		%
 		% omega between DTFT and DFT
 		%
-		\node at (22/40*\paperwidth,2/8*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\omega}$};
+		\node at (22/40*\paperwidth,5/32*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\omega}$};
 		%
 		% t between DTFT and DFT
 		%
-		\node at (18/40*\paperwidth,2/8*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{t}$};
+		\node at (18/40*\paperwidth,5/32*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{t}$};
 		%
 		% open arrow from DTFT to DFT
 		%
 		% first third
 		%
-		\draw[C1,thick] (17/40*\paperwidth,9/32*\paperheight) -- (19/40*\paperwidth,9/32*\paperheight);
+		\draw[C1,thick] (17/40*\paperwidth,7/32*\paperheight) -- (19/40*\paperwidth,7/32*\paperheight);
 		%
 		% second third (30 ° open)
 		%
 		% sqrt(3) approx 1.732050808
 		%
-		\draw[C1,thick] (19/40*\paperwidth,9/32*\paperheight) -- (19/40*\paperwidth+1.732050808/2*2/40*\paperwidth,9/32*\paperheight+1/2*2/40*\paperwidth);
+		\draw[C1,thick] (19/40*\paperwidth,7/32*\paperheight) -- (19/40*\paperwidth+1.732050808/2*2/40*\paperwidth,7/32*\paperheight+1/2*2/40*\paperwidth);
 		%
 		% last third
 		%
-		\draw[C1,thick,-latex] (21/40*\paperwidth,9/32*\paperheight) -- (23/40*\paperwidth,9/32*\paperheight) node[above]{Sampling};
+		\draw[C1,thick,-latex] (21/40*\paperwidth,7/32*\paperheight) -- (23/40*\paperwidth,7/32*\paperheight) node[above]{Sampling};
 		%
 		% dirac comb open arrow
 		%
-		\node at (22/40*\paperwidth,11/32*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\cdot\Sha}$};
+		\node at (22/40*\paperwidth,9/32*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\cdot\Sha}$};
 		%
-		\node at (18/40*\paperwidth,11/32*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{\ast\Sha}$};
+		\node at (18/40*\paperwidth,9/32*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{\ast\Sha}$};
 		%
 		%
 		%
