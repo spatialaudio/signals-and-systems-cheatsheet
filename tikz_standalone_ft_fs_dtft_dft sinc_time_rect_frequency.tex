@@ -10,7 +10,7 @@
 \newcommand{\sinc}{\mathrm{sinc}}
 \newcommand{\rect}{\mathrm{rect}}
 \newcommand{\psinc}{\mathrm{psinc}}
-% quadratisches Blatt?
+% uncomment for quadratic paper
 %\renewcommand{\paperwidth}{\paperheight}
 \begin{document}
 	\begin{tikzpicture}[
@@ -24,18 +24,20 @@
 		},
 		]
 		%
-		% Periode und Impulsbreite
+		% period
 		\newcommand{\T}{5}
-		\newcommand{\Th}{2}  % axis scaling below is hard coded!
-		% Schriftgröße der labels
+		% impulse width
+		\newcommand{\Th}{2}
+		% axis scaling below is hard coded!
+		% label font size
 		\newcommand{\FONTSIZE}{\scriptsize}
-		% Farbe des Zeitbereiches
+		% time domain color
 		\newcommand{\TCOLOR}{C0}
-		% Farbe des Frequenzbereiches
+		% frequency domain color
 		\newcommand{\FCOLOR}{C1}
-		% Dicke der kontinuierlichen Funktionen
+		% line width of continuous functions
 		\newcommand{\LINEWIDTH}{ultra thick}
-		% Größe der Marker der diskreten Funktionen
+		% marker size of discret functions
 		\newcommand{\MARKSIZE}{1.6pt}
 		\pgfmathsetmacro{\W}{pi}
 		\pgfmathsetmacro{\PAPERWIDTHSQUARED}{\paperwidth/32/32*\paperwidth}
@@ -48,14 +50,14 @@
 		%
 		%
 		%
-		%Kreuz in der Mitte
+		% red cross
 		%
 		\draw[C3,ultra thick] (3/8*\paperwidth,1/2*\paperheight) -- (5/8*\paperwidth,1/2*\paperheight);
 		\draw[C3,ultra thick] (1/2*\paperwidth,3/8*\paperheight) -- (1/2*\paperwidth,5/8*\paperheight);
 		%
 		%
 		%
-		%Fortsetzung der Kreuzlinien am Rand
+		% continuation of cross lines at the paper border
 		%
 		\draw[C3,ultra thick] (0,1/2*\paperheight) -- (1/8*\paperwidth,1/2*\paperheight);
 		\draw[C3,ultra thick] (7/8*\paperwidth,1/2*\paperheight) -- (\paperwidth,1/2*\paperheight);
@@ -64,7 +66,7 @@
 		%
 		%
 		%
-		% Abkürzungen der Transformationen in den Ecken
+		% transformation abbreviations in corners
 		%
 		\node[anchor=north west] at (0,\paperheight) (FT) {\Huge \textbf{FT}};
 		\node[anchor=north east] at (\paperwidth,\paperheight) (FS) {\Huge \textbf{FS}};
@@ -82,7 +84,7 @@
 		% FT Plots
 		%
 		%
-		% sinc Zeitbereich
+		% sinc time domain
 		%
 		\begin{axis}[
 			axis lines = middle,
@@ -114,7 +116,7 @@
 			\node[anchor=center] at (axis cs:-2.5,1) {\FONTSIZE $A$};
 		\end{axis}
 		%
-		% sinc Frequenzbereich
+		% sinc frequency domain
 		%
 		\begin{axis}[
 			axis lines = center,
@@ -151,7 +153,7 @@
 		% FS Plots
 		%
 		%
-		% sinc Zeitbereich
+		% sinc time domain
 		%
 		\begin{axis}[
 			axis lines = middle,
@@ -183,7 +185,7 @@
 			\node[anchor=center] at (axis cs:-2.5,1) {\FONTSIZE $A$};
 		\end{axis}
 		%
-		% sinc Frequenzbereich
+		% sinc frequency domain
 		%
 		\begin{axis}[
 			axis lines = center,
@@ -223,7 +225,7 @@
 		% DTFT Plots
 		%
 		%
-		% sinc Zeitbereich
+		% sinc time domain
 		%
 		\begin{axis}[
 			axis lines = middle,
@@ -257,7 +259,7 @@
 			\node[anchor=center] at (axis cs:-5,1) {\FONTSIZE $A$};
 		\end{axis}
 		%
-		% sinc Frequenzbereich
+		% sinc frequency domain
 		%
 		\begin{axis}[
 			axis lines = center,
@@ -294,7 +296,7 @@
 		% DFT Plots
 		%
 		%
-		% sinc Zeitbereich
+		% sinc time domain
 		%
 		\begin{axis}[
 			axis lines = middle,
@@ -328,7 +330,7 @@
 			\node[anchor=center] at (axis cs:-5,1) {\FONTSIZE $A$};
 		\end{axis}
 		%
-		% sinc Frequenzbereich
+		% sinc frequency domain
 		%
 		\begin{axis}[
 			axis lines = center,
@@ -362,10 +364,10 @@
 			\node[anchor=center] at (axis cs:-5,2) {\FONTSIZE $2 A$};
 		\end{axis}
 		%
-		% BEZIEHUNG ZWISCHEN FT UND FS
+		% relation between FT and FS
 		%
 		%
-		% omega zwischen FT und FS
+		% omega between FT and FS
 		%
 		\node at (22/40*\paperwidth,6/8*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\omega}$};
 		%
@@ -373,37 +375,37 @@
 		%
 		\node at (18/40*\paperwidth,6/8*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{t}$};
 		%
-		% geöffneter Feil von FT zu FS
+		% open arrow from FT to FS
 		%
-		% erstes Drittel
+		% first third
 		%
 		\draw[C1,thick] (17/40*\paperwidth,25/32*\paperheight) -- (19/40*\paperwidth,25/32*\paperheight);
 		%
-		% zweites Drittel (30 ° Öffnung)
+		% second third (30 ° open)
 		%
 		% sqrt(3) approx 1.732050808
 		%
 		\draw[C1,thick] (19/40*\paperwidth,25/32*\paperheight) -- (19/40*\paperwidth+1.732050808/2*2/40*\paperwidth,25/32*\paperheight+1/2*2/40*\paperwidth);
 		%
-		% leztes Drittel
+		% last third
 		%
 		\draw[C1,thick,-latex] (21/40*\paperwidth,25/32*\paperheight) -- (23/40*\paperwidth,25/32*\paperheight) node[above]{Sampling};
 		%
-		% Dirac Impulskämme über geöffnetem Pfeil
+		% impulse comb (open arrow)
 		%
 		\node at (22/40*\paperwidth,27/32*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\cdot\Sha}$};
 		%
 		\node at (18/40*\paperwidth,27/32*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{\ast\Sha}$};
 		%
-		% geschlossener Pfeil von FS zu FT
+		% closed arrow from FS to FT
 		%
 		%\draw[black,thick,latex-] (17/40*\paperwidth,23/32*\paperheight) -- (23/40*\paperwidth,23/32*\paperheight);
 		%
-		% Faltung sinc unter geschlossener Pfeil
+		% convolution sinc closed arrow
 		%
 		%\node at (22/40*\paperwidth,21/32*\paperheight) [align=center,color=\FCOLOR] {\huge $\mathbf{\ast\sinc}$};
 		%
-		% Multiplikation rect unter geschlossenen Pfeil
+		% multiplication rect closed arrow
 		%
 		%\node at (18/40*\paperwidth,21/32*\paperheight) [align=center,color=\TCOLOR] {\huge $\mathbf{\cdot\rect}$};
 		%
@@ -415,142 +417,142 @@
 		%
 		%
 		%
-		% BEZIEHUNG ZWISCHEN DTFT UND DFT
+		% relation between DTFT and DFT
 		%
 		%
-		% omega zwischen DTFT und DTFT
+		% omega between DTFT and DFT
 		%
 		\node at (22/40*\paperwidth,2/8*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\omega}$};
 		%
-		% t zwischen DTFT und DFT
+		% t between DTFT and DFT
 		%
 		\node at (18/40*\paperwidth,2/8*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{t}$};
 		%
-		% geöffneter Feil von DTFT zu DFT
+		% open arrow from DTFT to DFT
 		%
-		% erstes Drittel
+		% first third
 		%
 		\draw[C1,thick] (17/40*\paperwidth,9/32*\paperheight) -- (19/40*\paperwidth,9/32*\paperheight);
 		%
-		% zweites Drittel (30 ° Öffnung)
+		% second third (30 ° open)
 		%
 		% sqrt(3) approx 1.732050808
 		%
 		\draw[C1,thick] (19/40*\paperwidth,9/32*\paperheight) -- (19/40*\paperwidth+1.732050808/2*2/40*\paperwidth,9/32*\paperheight+1/2*2/40*\paperwidth);
 		%
-		% leztes Drittel
+		% last third
 		%
 		\draw[C1,thick,-latex] (21/40*\paperwidth,9/32*\paperheight) -- (23/40*\paperwidth,9/32*\paperheight) node[above]{Sampling};
 		%
-		% Dirac Impulskämme unter geöffnetem Pfeil
+		% dirac comb open arrow
 		%
 		\node at (22/40*\paperwidth,11/32*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\cdot\Sha}$};
 		%
 		\node at (18/40*\paperwidth,11/32*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{\ast\Sha}$};
 		%
-		% geschlossener Pfeil von DTFT zu DFT
+		% closed arrow from DFT to DTFT
 		%
 		%\draw[black,thick,latex-] (17/40*\paperwidth,7/32*\paperheight) -- (23/40*\paperwidth,7/32*\paperheight);
 		%
-		% Faltung sinc über geschlossener Pfeil
+		% convolution sinc closed arrow
 		%
 		%\node at (22/40*\paperwidth,5/32*\paperheight) [align=center,color=\FCOLOR] {\huge $\mathbf{\ast\psinc}$};
 		%
-		% Multiplikation rect über geschlossenen Pfeil
+		% multiplication rect closed arrow
 		%
 		%\node at (18/40*\paperwidth,5/32*\paperheight) [align=center,color=\TCOLOR] {\huge $\mathbf{\cdot\rect}$};
 		%
 		%
 		%
-		% BEZIEHUNG ZWISCHEN FT UND DTFT
+		% relation between FT and DTFT
 		%
 		%
-		% omega zwischen FT und DTFT
+		% omega between FT and DTFT
 		%
 		\node at (1/4*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge $\mathbf{\omega}$};
 		%
-		% t zwischen FT und FS
+		% t between FT and FS
 		%
 		\node at (1/4*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\Huge $\mathbf{t}$};
 		%
-		% geöffneter Feil von FT zu DTFT
+		% open arrow from FT to DTFT
 		%
-		% erstes Drittel
+		% first third
 		% 7/32
 		\draw[C0,thick] (9/32*\paperwidth,23/40*\paperheight) -- (9/32*\paperwidth,21/40*\paperheight);
 		%
-		% zweites Drittel (30 ° Öffnung)
+		% second third (30 ° open)
 		%
 		% sqrt(3) approx 1.732050808
 		%
 		\draw[C0,thick] (9/32*\paperwidth,21/40*\paperheight) -- (9/32*\paperwidth+1/2*2/40*\paperheight,21/40*\paperheight-1.732050808/2*2/40*\paperheight);
 		%
-		% leztes Drittel
+		% last third
 		%
 		\draw[C0,thick,-latex] (9/32*\paperwidth,19/40*\paperheight) -- (9/32*\paperwidth,17/40*\paperheight)  node[below]{Sampling};
 		%
-		% Dirac Impulskämme über geöffnetem Pfeil
+		% dirac comb open arrow
 		%
 		\node at (11/32*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge $\mathbf{\ast\Sha}$};
 		%
 		\node at (11/32*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\Huge $\mathbf{\cdot\Sha}$};
 		%
-		% geschlossener Pfeil von DTFT zu FT
+		% closed arrow from DTFT to FT
 		%
 		\draw[C0,thick,-latex] (7/32*\paperwidth,17/40*\paperheight) -- (7/32*\paperwidth,23/40*\paperheight) node[above]{Interpolation};
 		%
-		% Faltung sinc unter geschlossenem Pfeil
+		% convolution sinc closed arrow
 		%
 		\node at (5/32*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\huge $\mathbf{\cdot\rect}$};
 		%
-		% Multiplikation rect über geschlossenen Pfeil
+		% multiplication rect closed arrow
 		%
 		\node at (5/32*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\huge $\mathbf{\ast\sinc}$};
 		%
 		%
 		%
-		% BEZIEHUNG ZWISCHEN FS UND DFT
+		% relation between FS and DFT
 		%
 		%
-		% omega zwischen FS und DFT
+		% omega between FS and DFT
 		%
 		\node at (3/4*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge $\mathbf{\omega}$};
 		%
-		% t zwischen FS und DFT
+		% t between FS and DFT
 		%
 		\node at (3/4*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\Huge $\mathbf{t}$};
 		%
-		% geöffneter Feil von FS zu DFT
+		% closed arrow from FS to DFT
 		%
-		% erstes Drittel
+		% first third
 		% 7/32
 		\draw[C0,thick] (25/32*\paperwidth,23/40*\paperheight) -- (25/32*\paperwidth,21/40*\paperheight);
 		%
-		% zweites Drittel (30 ° Öffnung)
+		% second third (30 ° open)
 		%
 		% sqrt(3) approx 1.732050808
 		%
 		\draw[C0,thick] (25/32*\paperwidth,21/40*\paperheight) -- (25/32*\paperwidth+1/2*2/40*\paperheight,21/40*\paperheight-1.732050808/2*2/40*\paperheight);
 		%
-		% leztes Drittel
+		% last third
 		%
 		\draw[C0,thick,-latex] (25/32*\paperwidth,19/40*\paperheight) -- (25/32*\paperwidth,17/40*\paperheight)  node[below]{Sampling};
 		%
-		% Dirac Impulskämme über geöffnetem Pfeil
+		% dirac comb open arrow
 		%
 		\node at (27/32*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge $\mathbf{\ast\Sha}$};
 		%
 		\node at (27/32*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{\cdot\Sha}$};
 		%
-		% geschlossener Pfeil von DFT zu FS
+		% closed arrow from DFT to FS
 		%
 		\draw[C0,thick,-latex] (23/32*\paperwidth,17/40*\paperheight) -- (23/32*\paperwidth,23/40*\paperheight)  node[above]{Interpolation};
 		%
-		% Faltung psinc links von geschlossenem Pfeil
+		% convolution psinc closed arrow
 		%
 		\node at (21/32*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\huge $\mathbf{\cdot\rect}$};
 		%
-		% Multiplikation rect über geschlossenen Pfeil
+		% multiplication rect closed arrow
 		%
 		\node at (21/32*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\huge $\mathbf{\ast\psinc}$};
 		%
