@@ -10,7 +10,7 @@
 \newcommand{\sinc}{\mathrm{sinc}}
 \newcommand{\rect}{\mathrm{rect}}
 \newcommand{\psinc}{\mathrm{psinc}}
-% quadratisches Blatt?
+% uncomment for squared paper
 %\renewcommand{\paperwidth}{\paperheight}
 \begin{document}
 	\begin{tikzpicture}[
@@ -24,20 +24,20 @@
 		},
 		]
 		%
-		% Periode und Impulsbreite
+		% period
 		\newcommand{\T}{5}
-		\newcommand{\Th}{2}  % axis scaling below is hard coded!
-		% Schriftgröße der labels
+		% impulse width
+		\newcommand{\Th}{2}
+		% axis scaling below is hard coded!
+		% label font size
 		\newcommand{\FONTSIZE}{\scriptsize}
-		% Schriftgröße der Pfeile im Mittelkreuz
-		\newcommand{\FONTSIZECROSSARROWS}{\large}
-		% Farbe des Zeitbereiches
+		% time domain color
 		\newcommand{\TCOLOR}{C0}
-		% Farbe des Frequenzbereiches
+		% frequency domain color
 		\newcommand{\FCOLOR}{C1}
-		% Dicke der kontinuierlichen Funktionen
+		% line width of continuous functions
 		\newcommand{\LINEWIDTH}{ultra thick}
-		% Größe der Marker der diskreten Funktionen
+		% marker size of discret functions
 		\newcommand{\MARKSIZE}{1.6pt}
 		\pgfmathsetmacro{\W}{pi}
 		\pgfmathsetmacro{\PAPERWIDTHSQUARED}{\paperwidth/32/32*\paperwidth}
@@ -50,14 +50,14 @@
 		%
 		%
 		%
-		%Kreuz in der Mitte
+		% red cross
 		%
 		\draw[C3,ultra thick] (3/8*\paperwidth,1/2*\paperheight) -- (5/8*\paperwidth,1/2*\paperheight);
 		\draw[C3,ultra thick] (1/2*\paperwidth,3/8*\paperheight) -- (1/2*\paperwidth,5/8*\paperheight);
 		%
 		%
 		%
-		%Fortsetzung der Kreuzlinien am Rand
+		% continuation of cross lines at the paper border
 		%
 		\draw[C3,ultra thick] (0,1/2*\paperheight) -- (1/8*\paperwidth,1/2*\paperheight);
 		\draw[C3,ultra thick] (7/8*\paperwidth,1/2*\paperheight) -- (\paperwidth,1/2*\paperheight);
@@ -66,7 +66,7 @@
 		%
 		%
 		%
-		% Abkürzungen der Transformationen in den Ecken
+		% transformation abbreviations in corners
 		%
 		\node[anchor=north west] at (0,\paperheight) (FT) {\Huge \textbf{FT}};
 		\node[anchor=north east] at (\paperwidth,\paperheight) (FS) {\Huge \textbf{FS}};
@@ -75,18 +75,18 @@
 		%
 		\node[anchor=north west] at (11/64*\paperwidth,17/20*\paperheight) (whFT) {\FONTSIZE $\omega_h = \frac{2\pi}{T_h}$};
 		\node[anchor=north west] at (25/32*\paperwidth,17/20*\paperheight) (woFS) {\FONTSIZE $\omega_0 = \frac{2\pi}{T_0}$};
-		\node[anchor=north west] at (25/32*\paperwidth,7/20*\paperheight) (NFFT) {\FONTSIZE $N=10$};
-		\node[anchor=north west] at (24.5/32*\paperwidth,6.5/20*\paperheight) (NFFTnote) {\FONTSIZE exact DFT pair};
+		\node[anchor=north west] at (25/32*\paperwidth,5/20*\paperheight) (NFFT) {\FONTSIZE $N=10$};
+		\node[anchor=north west] at (24.5/32*\paperwidth,4.5/20*\paperheight) (NFFTnote) {\FONTSIZE exact DFT pair};
 
-		\node[anchor=north west] at (11/64*\paperwidth,7/20*\paperheight) (WcDTFT) {\FONTSIZE $\Omega_h = \frac{2\pi}{K_h}$};
-		\node[anchor=north west] at (8/64*\paperwidth,6.5/20*\paperheight) (WcDTFTfor) {\FONTSIZE $K_h\in\mathbb{N}$, here for $K_h=5$};
+		\node[anchor=north west] at (11/64*\paperwidth,5/20*\paperheight) (WcDTFT) {\FONTSIZE $\Omega_h = \frac{2\pi}{K_h}$};
+		\node[anchor=north west] at (8/64*\paperwidth,4.5/20*\paperheight) (WcDTFTfor) {\FONTSIZE $K_h\in\mathbb{N}$, here for $K_h=5$};
 
 
 		\node[anchor=north west] at (48.5/128*\paperwidth,2/128*\paperheight) (author) {\tiny Robert Hauser, Frank Schultz, University of Rostock, \url{https://github.com/spatialaudio/signals-and-systems-cheatsheet}, CC BY 4.0, 2024-04-06};
 		%
 		% FT Plots
 		%
-		% rect Zeitbereich
+		% rect time domain
 		\begin{axis}[
 			axis lines = middle,
 			axis line style = {-latex},
@@ -96,7 +96,7 @@
 			y label style={anchor=west},
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
-			at = {(1/10*\paperwidth,17/20*\paperheight)},
+			at = {(1/10*\paperwidth,14/20*\paperheight)},
 			xtick = {-6,-4,-2,-1,0,1,2,4,6},
 			xticklabels = {,,,$\frac{-T_h}{2}$,,$\frac{+T_h}{2}$,,,},
 			ytick = {0,0.5,1},
@@ -107,7 +107,7 @@
 			ymax = 1.125,
 			xmin = -8.5,
 			xmax = 8.5,
-			anchor = north,
+			anchor = south,
 			]
 			\addplot[domain=-7.5:7.5,
 			samples = 257,
@@ -117,7 +117,7 @@
 			\node[anchor=center] at (axis cs:-\Th/2*1.75,1) {\FONTSIZE $A$};
 		\end{axis}
 		%
-		% rect Frequenzbereich
+		% rect frequency domain
 		%
 		\begin{axis}[
 			axis lines = middle,
@@ -134,12 +134,12 @@
 			grid = major,
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
-			at = {(3/10*\paperwidth,17/20*\paperheight)},
+			at = {(3/10*\paperwidth,14/20*\paperheight)},
 			ymin = -0.5,
 			ymax = 2.25,
 			xmin = -17/15*6*pi,
 			xmax = 17/15*6*pi,
-			anchor = north,
+			anchor = south,
 			]
 			\addplot[domain=-6*pi:6*pi,
 			samples = 129,
@@ -153,7 +153,7 @@
 		%
 		% FS Plots
 		%
-		% rect Zeitbereich
+		% rect time domain
 		\begin{axis}[
 			axis lines = middle,
 			axis line style = {-latex},
@@ -163,7 +163,7 @@
 			y label style={anchor=west},
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
-			at = {(7/10*\paperwidth,17/20*\paperheight)},
+			at = {(7/10*\paperwidth,14/20*\paperheight)},
 			xtick = {-5,-2.5,-2,-1,1,2,2.5,5},
 			xticklabels = {$-T_0$,,,$\frac{-T_h}{2}$,$\frac{+T_h}{2}$,,,$+T_0$},
 			ytick = {0,0.5,1},
@@ -174,7 +174,7 @@
 			ymax = 1.125,
 			xmin = -8.5,
 			xmax = 8.5,
-			anchor = north,
+			anchor = south,
 			]
 			\addplot[domain=-7.5:7.5,
 			samples = 257,
@@ -184,7 +184,7 @@
 			\node[anchor=center] at (axis cs:-2.5,1) {\FONTSIZE $A$};
 		\end{axis}
 		%
-		% rect Frequenzbereich
+		% rect frequency domain
 		%
 		\begin{axis}[
 			axis lines = middle,
@@ -200,13 +200,13 @@
 			ticklabel style={font=\FONTSIZE},
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
-			at = {(9/10*\paperwidth,17/20*\paperheight)},
+			at = {(9/10*\paperwidth,14/20*\paperheight)},
 			grid = major,
 			ymin = -0.5,
 			ymax = 2.25,
 			xmin = -17,,
 			xmax = 17,
-			anchor = north,
+			anchor = south,
 			]
 			\addplot[domain=-15:15,
 			samples = 31,
@@ -223,7 +223,7 @@
 		%
 		% DTFT Plots
 		%
-		% rect Zeitbereich
+		% rect time domain
 		\begin{axis}[
 			axis lines = middle,
 			axis line style = {-latex},
@@ -233,7 +233,7 @@
 			y label style={anchor=west},
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
-			at = {(1/10*\paperwidth,7/20*\paperheight)},
+			at = {(1/10*\paperwidth,6/20*\paperheight)},
 			xtick = {-15,-10,-5,-2.5,0,2.5,5,10,15},
 			xticklabels = {,,,$\frac{-K_h}{2}$,,$\frac{+K_h}{2}$,,$+10$,},
 			ytick = {0,0.5,1},
@@ -256,7 +256,7 @@
 			\node[anchor=center] at (axis cs:-5,1) {\FONTSIZE $A$};
 		\end{axis}
 		%
-		% rect Frequenzbereich
+		% rect frequency domain
 		%
 		\begin{axis}[
 			axis lines = middle,
@@ -267,7 +267,7 @@
 			y label style={anchor=west},
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
-			at = {(3/10*\paperwidth,7/20*\paperheight)},
+			at = {(3/10*\paperwidth,6/20*\paperheight)},
 			xtick = {-3*pi,-2*pi,-2*pi/5,0,2*pi/5,2*pi,3*pi},
 			xticklabels = {,$-2\pi$,$-\Omega_h$,,$+\Omega_h$,$2\pi$,},
 			ytick = {0,2.5,5},
@@ -292,7 +292,7 @@
 		%
 		% DFT Plots
 		%
-		% rect Zeitbereich
+		% rect time domain
 		\begin{axis}[
 			axis lines = middle,
 			axis line style = {-latex},
@@ -302,7 +302,7 @@
 			y label style={anchor=west},
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
-			at = {(7/10*\paperwidth,7/20*\paperheight)},
+			at = {(7/10*\paperwidth,6/20*\paperheight)},
 			xtick = {-15,-10,-5,0,5,10,15},
 			xticklabels = {,,$-5$,,$+5$,$+10$,},
 			ytick = {0,0.5,1},
@@ -325,7 +325,7 @@
 			\node[anchor=center] at (axis cs:-5,1) {\FONTSIZE $A$};
 		\end{axis}
 		%
-		% rect Frequenzbereich
+		% rect frequency domain
 		%
 		\begin{axis}[
 			axis lines = middle,
@@ -341,7 +341,7 @@
 			ytick = {0,2.5,5},
 			yticklabels = {},
 			ticklabel style={font=\FONTSIZE},
-			at = {(9/10*\paperwidth,7/20*\paperheight)},
+			at = {(9/10*\paperwidth,6/20*\paperheight)},
 			grid = major,
 			ymin = -1.25,
 			ymax = 5.625,
@@ -362,252 +362,205 @@
 		%
 		%
 		%
-		% BEZIEHUNG ZWISCHEN FT UND FS
+		% relation between FT and FS
 		%
 		%
-		% omega zwischen FT und FS
+		% omega between FT and FS
 		%
-		\node at (22/40*\paperwidth,6/8*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\omega}$};
+		\node at (22/40*\paperwidth,25/32*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\omega}$};
 		%
-		% t zwischen FT und FS
+		% t between FT and FS
 		%
-		\node at (18/40*\paperwidth,6/8*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{t}$};
+		\node at (18/40*\paperwidth,25/32*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{t}$};
 		%
-		% geöffneter Feil von FT zu FS
+		% open arrow from FT to FS
 		%
-		% erstes Drittel
+		% first third
 		%
-		\draw[C1,thick] (17/40*\paperwidth,25/32*\paperheight) -- (19/40*\paperwidth,25/32*\paperheight);
+		\draw[C1,thick] (17/40*\paperwidth,26/32*\paperheight) -- (19/40*\paperwidth,26/32*\paperheight);
 		%
-		% zweites Drittel (30 ° Öffnung)
-		%
-		% sqrt(3) approx 1.732050808
-		%
-		\draw[C1,thick] (19/40*\paperwidth,25/32*\paperheight) -- (19/40*\paperwidth+1.732050808/2*2/40*\paperwidth,25/32*\paperheight+1/2*2/40*\paperwidth);
-		%
-		% leztes Drittel
-		%
-		\draw[C1,thick,-latex] (21/40*\paperwidth,25/32*\paperheight) -- (23/40*\paperwidth,25/32*\paperheight) node[above] {Sampling};
-		%
-		% Dirac Impulskämme über geöffnetem Pfeil
-		%
-		\node at (22/40*\paperwidth,27/32*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\cdot\Sha}$};
-		%
-		\node at (18/40*\paperwidth,27/32*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{\ast\Sha}$};
-		%
-		% geschlossener Pfeil von FS zu FT
-		%
-		\draw[C1,thick,latex-] (17/40*\paperwidth,23/32*\paperheight)  node[below] {Interpolation} -- (23/40*\paperwidth,23/32*\paperheight);
-		%
-		% Faltung sinc unter geschlossener Pfeil
-		%
-		\node at (22/40*\paperwidth,21/32*\paperheight) [align=center,color=\FCOLOR] {\huge $\mathbf{\ast\sinc}$};
-		%
-		% Multiplikation rect unter geschlossenen Pfeil
-		%
-		\node at (18/40*\paperwidth,21/32*\paperheight) [align=center,color=\TCOLOR] {\huge $\mathbf{\cdot\rect}$};
-		%
-		%
-		%
-		%
-		%
-		%
-		%
-		%
-		%
-		% BEZIEHUNG ZWISCHEN DTFT UND DFT
-		%
-		%
-		% omega zwischen DTFT und DTFT
-		%
-		\node at (22/40*\paperwidth,2/8*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\omega}$};
-		%
-		% t zwischen DTFT und DFT
-		%
-		\node at (18/40*\paperwidth,2/8*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{t}$};
-		%
-		% geöffneter Feil von DTFT zu DFT
-		%
-		% erstes Drittel
-		%
-		\draw[C1,thick] (17/40*\paperwidth,9/32*\paperheight) -- (19/40*\paperwidth,9/32*\paperheight);
-		%
-		% zweites Drittel (30 ° Öffnung)
+		% second third (30 ° open)
 		%
 		% sqrt(3) approx 1.732050808
 		%
-		\draw[C1,thick] (19/40*\paperwidth,9/32*\paperheight) -- (19/40*\paperwidth+1.732050808/2*2/40*\paperwidth,9/32*\paperheight+1/2*2/40*\paperwidth);
+		\draw[C1,thick] (19/40*\paperwidth,26/32*\paperheight) -- (19/40*\paperwidth+1.732050808/2*2/40*\paperwidth,26/32*\paperheight+1/2*2/40*\paperwidth);
 		%
-		% leztes Drittel
+		% last third
 		%
-		\draw[C1,thick,-latex] (21/40*\paperwidth,9/32*\paperheight) -- (23/40*\paperwidth,9/32*\paperheight) node[above] {Sampling};
+		\draw[C1,thick,-latex] (21/40*\paperwidth,26/32*\paperheight) -- (23/40*\paperwidth,26/32*\paperheight) node[above] {Sampling};
 		%
-		% Dirac Impulskämme unter geöffnetem Pfeil
+		% impulse comb (open arrow)
 		%
-		\node at (22/40*\paperwidth,11/32*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\cdot\Sha}$};
+		\node at (22/40*\paperwidth,28/32*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\cdot\Sha}$};
 		%
-		\node at (18/40*\paperwidth,11/32*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{\ast\Sha}$};
+		\node at (18/40*\paperwidth,28/32*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{\ast\Sha}$};
 		%
-		% geschlossener Pfeil von DTFT zu DFT
+		% closed arrow from FS to FT
 		%
-		\draw[C1,thick,latex-] (17/40*\paperwidth,7/32*\paperheight) node[below]{Interpolation}-- (23/40*\paperwidth,7/32*\paperheight);
+		\draw[C1,thick,latex-] (17/40*\paperwidth,24/32*\paperheight)  node[below] {Interpolation} -- (23/40*\paperwidth,24/32*\paperheight);
 		%
-		% Faltung sinc über geschlossener Pfeil
+		% convolution sinc closed arrow
 		%
-		\node at (22/40*\paperwidth,5/32*\paperheight) [align=center,color=\FCOLOR] {\huge $\mathbf{\ast\psinc}$};
+		\node at (22/40*\paperwidth,22/32*\paperheight) [align=center,color=\FCOLOR] {\huge $\mathbf{\ast\sinc}$};
 		%
-		% Multiplikation rect über geschlossenen Pfeil
+		% multiplication rect closed arrow
 		%
-		\node at (18/40*\paperwidth,5/32*\paperheight) [align=center,color=\TCOLOR] {\huge $\mathbf{\cdot\rect}$};
-		%
-		%
-		%
-		% BEZIEHUNG ZWISCHEN FT UND DTFT
+		\node at (18/40*\paperwidth,22/32*\paperheight) [align=center,color=\TCOLOR] {\huge $\mathbf{\cdot\rect}$};
 		%
 		%
-		% omega zwischen FT und DTFT
+		%
+		%
+		% relation between DTFT and DFT
+		%
+		%
+		% omega between DTFT and DFT
+		%
+		\node at (22/40*\paperwidth,7/32*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\omega}$};
+		%
+		% t between DTFT and DFT
+		%
+		\node at (18/40*\paperwidth,7/32*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{t}$};
+		%
+		% open arrow from DTFT to DFT
+		%
+		% first third
+		%
+		\draw[C1,thick] (17/40*\paperwidth,8/32*\paperheight) -- (19/40*\paperwidth,8/32*\paperheight);
+		%
+		% second third (30 ° open)
+		%
+		% sqrt(3) approx 1.732050808
+		%
+		\draw[C1,thick] (19/40*\paperwidth,8/32*\paperheight) -- (19/40*\paperwidth+1.732050808/2*2/40*\paperwidth,8/32*\paperheight+1/2*2/40*\paperwidth);
+		%
+		% last third
+		%
+		\draw[C1,thick,-latex] (21/40*\paperwidth,8/32*\paperheight) -- (23/40*\paperwidth,8/32*\paperheight) node[above] {Sampling};
+		%
+		% dirac comb open arrow
+		%
+		\node at (22/40*\paperwidth,10/32*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\cdot\Sha}$};
+		%
+		\node at (18/40*\paperwidth,10/32*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{\ast\Sha}$};
+		%
+		% closed arrow from DFT to DTFT
+		%
+		\draw[C1,thick,latex-] (17/40*\paperwidth,6/32*\paperheight) node[below]{Interpolation}-- (23/40*\paperwidth,6/32*\paperheight);
+		%
+		% convolution sinc closed arrow
+		%
+		\node at (22/40*\paperwidth,4/32*\paperheight) [align=center,color=\FCOLOR] {\huge $\mathbf{\ast\psinc}$};
+		%
+		% multiplication rect closed arrow
+		%
+		\node at (18/40*\paperwidth,4/32*\paperheight) [align=center,color=\TCOLOR] {\huge $\mathbf{\cdot\rect}$};
+		%
+		%
+		%
+		% relation between FT and DTFT
+		%
+		%
+		% omega between FT and DTFT
 		%
 		\node at (1/5*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge $\mathbf{\omega}$};
 		%
-		% t zwischen FT und FS
+		% t between FT amd FS
 		%
 		\node at (1/5*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\Huge $\mathbf{t}$};
 		%
-		% geöffneter Feil von FT zu DTFT
+		% open arrow from FT to DTFT
 		%
-		% erstes Drittel
+		% first third
 		% 7/32
 		\draw[C0,thick] (8/32*\paperwidth,23/40*\paperheight) -- (8/32*\paperwidth,21/40*\paperheight);
 		%
-		% zweites Drittel (30 ° Öffnung)
+		% second third (30 ° open)
 		%
 		% sqrt(3) approx 1.732050808
 		%
 		\draw[C0,thick] (8/32*\paperwidth,21/40*\paperheight) -- (8/32*\paperwidth+1/2*2/40*\paperheight,21/40*\paperheight-1.732050808/2*2/40*\paperheight);
 		%
-		% leztes Drittel
+		% last third
 		%
 		\draw[C0,thick,-latex] (8/32*\paperwidth,19/40*\paperheight) -- (8/32*\paperwidth,17/40*\paperheight) node[below]{Sampling};
 		%
-		% Dirac Impulskämme über geöffnetem Pfeil
+		% dirac comb open arrow
 		%
 		\node at (10/32*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge $\mathbf{\ast\Sha}$};
 		%
 		\node at (10/32*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\Huge $\mathbf{\cdot\Sha}$};
 		%
-		% geschlossener Pfeil von DTFT zu FT
-		%
-		%\draw[black,thick,-latex] (7/32*\paperwidth,17/40*\paperheight) -- (7/32*\paperwidth,23/40*\paperheight);
-		%
-		% Faltung sinc unter geschlossenem Pfeil
-		%
-		%\node at (5/32*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\huge $\mathbf{\cdot\rect}$};
-		%
-		% Multiplikation rect über geschlossenen Pfeil
-		%
-		%\node at (5/32*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\huge $\mathbf{\ast\sinc}$};
+		% relation between FS and DFT
 		%
 		%
-		%
-		% BEZIEHUNG ZWISCHEN FS UND DFT
-		%
-		%
-		% omega zwischen FS und DFT
+		% omega between FS and DFT
 		%
 		\node at (4/6*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge $\mathbf{\omega}$};
 		%
-		% t zwischen FS und DFT
+		% t between FS and DFT
 		%
 		\node at (4/6*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\Huge $\mathbf{t}$};
 		%
-		% geöffneter Feil von FS zu DFT
+		% open arrow from FS to DFT
 		%
-		% erstes Drittel
+		% first third
 		% 7/32
 		\draw[C0,thick] (23/32*\paperwidth,23/40*\paperheight) -- (23/32*\paperwidth,21/40*\paperheight);
 		%
-		% zweites Drittel (30 ° Öffnung)
+		% second third (30 ° open)
 		%
 		% sqrt(3) approx 1.732050808
 		%
 		\draw[C0,thick] (23/32*\paperwidth,21/40*\paperheight) -- (23/32*\paperwidth+1/2*2/40*\paperheight,21/40*\paperheight-1.732050808/2*2/40*\paperheight);
 		%
-		% leztes Drittel
+		% last third
 		%
 		\draw[C0,thick,-latex] (23/32*\paperwidth,19/40*\paperheight) -- (23/32*\paperwidth,17/40*\paperheight) node[below]{Sampling};
 		%
-		% Dirac Impulskämme über geöffnetem Pfeil
+		% dirac comb open arrow
 		%
 		\node at (25/32*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge $\mathbf{\ast\Sha}$};
 		%
 		\node at (25/32*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{\cdot\Sha}$};
 		%
-		% geschlossener Pfeil von DFT zu FS
-		%
-		%\draw[black,thick,-latex] (23/32*\paperwidth,17/40*\paperheight) -- (23/32*\paperwidth,23/40*\paperheight);
-		%
-		% Faltung psinc links von geschlossenem Pfeil
-		%
-		%\node at (21/32*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\huge $\mathbf{\cdot\rect}$};
-		%
-		% Multiplikation rect über geschlossenen Pfeil
-		%
-		%\node at (21/32*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\huge $\mathbf{\ast\psinc}$};
-		%
-		%
-		%
-		%
-		%
 		%
 		% arrow from FS to DTFT
 		%
-		\draw[-latex, ultra thick] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=\ANGLE,color=\TCOLOR,xshift=-1/80*\paperwidth] {\FONTSIZE \rotatebox{+90}{$\curvearrowleft$} Aperiodisation + Sampling}
-		node[below,rotate=\ANGLE,color=\FCOLOR,xshift=-1/80*\paperwidth] {\FONTSIZE \rotatebox{+90}{$\curvearrowleft$} Interpolation + Periodisation} (7.75/20*\paperwidth,7.75/20*\paperheight);
-		\draw[thick] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=-\ANGLE,color=\TCOLOR,xshift=-1/80*\paperwidth] {\FONTSIZE \rotatebox{+90}{$\curvearrowright$} Periodisation + Sampling}
-		node[below,rotate=-\ANGLE,color=\FCOLOR,xshift=-1/80*\paperwidth] {\FONTSIZE  \rotatebox{+90}{$\curvearrowright$} Sampling + Periodisation} (7.75/20*\paperwidth,12.25/20*\paperheight);		%
+		\draw[-latex, ultra thick] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=\ANGLE,color=\TCOLOR,xshift=-1/80*\paperwidth,anchor=south] {\FONTSIZE Aperiodisation + Sampling}
+		node[below,rotate=\ANGLE,color=\FCOLOR,xshift=-1/80*\paperwidth,anchor=north] {\FONTSIZE Interpolation + Periodisation} (7.75/20*\paperwidth,7.75/20*\paperheight) coordinate (A);
+		
+		\coordinate[above left=0.75cm*cos(\ANGLE) and 0.75cm*sin(\ANGLE) of A] (B);
+		\coordinate[below right=0.75cm*cos(\ANGLE) and 0.75cm*sin(\ANGLE) of A] (C);
+		
+		\path[-latex] (B) edge [bend right=90,looseness=2] (C);
+		
+		\draw[thick] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=-\ANGLE,color=\TCOLOR,xshift=-1/80*\paperwidth,anchor=south] {\FONTSIZE Periodisation + Sampling}
+		node[below,rotate=-\ANGLE,color=\FCOLOR,xshift=-1/80*\paperwidth,anchor=north] {\FONTSIZE Sampling + Periodisation} (7.75/20*\paperwidth,12.25/20*\paperheight) coordinate (A);
+		
+		\coordinate[below left=0.75cm*cos(\ANGLE) and 0.75cm*sin(\ANGLE) of A] (B);
+		\coordinate[above right=0.75cm*cos(\ANGLE) and 0.75cm*sin(\ANGLE) of A] (C);
 		%
-		% arrow from DTFT to FS
-		%
-		%\draw[-latex] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=\ANGLE,color=\TCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Periodic + Interpolation}
-		%node[below,rotate=\ANGLE,color=\FCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Aperiodic + Sampling} (12.25/20*\paperwidth,12.25/20*\paperheight);
-		%
+		\path[-latex] (B) edge [bend left=90,looseness=2] (C);
 		%
 		% arrow from FT to DFT
 		%
-		\draw[-latex, ultra thick] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=-\ANGLE,color=\TCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Sampling + Periodisation \rotatebox{-90}{$\curvearrowleft$}}
-		node[below,rotate=-\ANGLE,color=\FCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Periodisation + Sampling \rotatebox{-90}{$\curvearrowleft$}} (12.25/20*\paperwidth,7.75/20*\paperheight);
-		\draw[thick] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=\ANGLE,color=\TCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Sampling + Aperiodisation \rotatebox{-90}{$\curvearrowright$}}
-		node[below,rotate=\ANGLE,color=\FCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Periodisation + Interpolation \rotatebox{-90}{$\curvearrowright$}} (12.25/20*\paperwidth,12.25/20*\paperheight);
+		\draw[-latex, ultra thick] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=-\ANGLE,color=\TCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Sampling + Periodisation}
+		node[below,rotate=-\ANGLE,color=\FCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Periodisation + Sampling} (12.25/20*\paperwidth,7.75/20*\paperheight) coordinate (A);
+		
+		\coordinate[below left=0.75cm*cos(\ANGLE) and 0.75cm*sin(\ANGLE) of A] (B);
+		\coordinate[above right=0.75cm*cos(\ANGLE) and 0.75cm*sin(\ANGLE) of A] (C);
 		%
-		%
-		% arrow from DFT to FT
-		%
-		%\draw[-latex] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=-\ANGLE,color=\TCOLOR,xshift=-1/80*\paperwidth] {\FONTSIZE Aperiodic + Interpolation}
-		%node[below,rotate=-\ANGLE,color=\FCOLOR,xshift=-1/80*\paperwidth] {\FONTSIZE Aperiodic + Interpolation} (7.75/20*\paperwidth,12.25/20*\paperheight);
+		\path[-latex] (B) edge [bend right=90,looseness=2] (C);
 		%
 		%
 		%
+		\draw[thick] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=\ANGLE,color=\TCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Sampling + Aperiodisation}
+		node[below,rotate=\ANGLE,color=\FCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Periodisation + Interpolation} (12.25/20*\paperwidth,12.25/20*\paperheight) coordinate (A);
+		
+		\coordinate[above left=0.75cm*cos(\ANGLE) and 0.75cm*sin(\ANGLE) of A] (B);
+		\coordinate[below right=0.75cm*cos(\ANGLE) and 0.75cm*sin(\ANGLE) of A] (C);
 		%
-		%
-		%
-		%
-		%
-		%
-		%\draw[black,ultra thick] (0.5/20*\paperwidth,0) -- (0.5/20*\paperwidth,\paperheight);
-		%\draw[black,ultra thick] (8/20*\paperwidth,0) -- (8/20*\paperwidth,\paperheight);
-		%
-		%
-		%\draw[black,ultra thick] (19.5/20*\paperwidth,0) -- (19.5/20*\paperwidth,\paperheight);
-		%\draw[black,ultra thick] (12/20*\paperwidth,0) -- (12/20*\paperwidth,\paperheight);
-		%
-		%
-		%\draw[black,ultra thick] (0,0.5/20*\paperheight) -- (\paperwidth,0.5/20*\paperheight);
-		%\draw[black,ultra thick] (0,8/20*\paperheight) -- (\paperwidth,8/20*\paperheight);
-		%
-		%
-		%\draw[black,ultra thick] (0,12/20*\paperheight) -- (\paperwidth,12/20*\paperheight);
-		%\draw[black,ultra thick] (0,19.5/20*\paperheight) -- (\paperwidth,19.5/20*\paperheight);
-		%
+		\path[-latex] (B) edge [bend left=90,looseness=2] (C);
 		%
 		\begin{comment}
 		\end{comment}
