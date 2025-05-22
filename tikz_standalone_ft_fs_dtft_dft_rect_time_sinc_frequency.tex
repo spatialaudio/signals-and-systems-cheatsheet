@@ -1,4 +1,5 @@
 \documentclass[paper=a3paper,landscape]{standalone}
+\usepackage{fouriernc}
 \usepackage{trfsigns}
 \usepackage{pgfplots}
 \usetikzlibrary{calc}
@@ -23,6 +24,15 @@
 			diric2(\u,\m,\n)=( mod(abs(\u),\n)==0)*\m +(mod(abs(\u),\n)!=0)*sin(deg(\m/\n*pi*\u))/sin(deg(1/\n*pi*\u));
 		},
 		]
+		% https://tex.stackexchange.com/questions/184111/how-do-i-make-label-node-to-appear-in-front-of-markers-in-pgfplots
+		% ticks labels in front of addplot:
+		\pgfplotsset{
+		  layers/mylayers/.define layer set=
+		    {axis background,axis grid,axis ticks,axis lines,%
+		      main,axis tick labels,axis descriptions,axis foreground}
+		    {/pgfplots/layers/standard}% re-uses the style definitions of layers/standard
+		}
+		\pgfplotsset{set layers=mylayers} % using mylayers
 		%
 		% period
 		\newcommand{\T}{5}
@@ -46,32 +56,32 @@
 		%
 		%
 		%
-		\draw[C3, ultra thick] (0,0) rectangle (\paperwidth,\paperheight);
+		\draw[C7, ultra thick] (0,0) rectangle (\paperwidth,\paperheight);
 		%
 		%
 		%
-		% red cross
+		% gray cross
 		%
-		\draw[C3,ultra thick] (3/8*\paperwidth,1/2*\paperheight) -- (5/8*\paperwidth,1/2*\paperheight);
-		\draw[C3,ultra thick] (1/2*\paperwidth,3/8*\paperheight) -- (1/2*\paperwidth,5/8*\paperheight);
+		\draw[C7,ultra thick] (3/8*\paperwidth,1/2*\paperheight) -- (5/8*\paperwidth,1/2*\paperheight);
+		\draw[C7,ultra thick] (1/2*\paperwidth,3/8*\paperheight) -- (1/2*\paperwidth,5/8*\paperheight);
 		%
 		%
 		%
 		% continuation of cross lines at the paper border
 		%
-		\draw[C3,ultra thick] (0,1/2*\paperheight) -- (1/8*\paperwidth,1/2*\paperheight);
-		\draw[C3,ultra thick] (7/8*\paperwidth,1/2*\paperheight) -- (\paperwidth,1/2*\paperheight);
-		\draw[C3,ultra thick] (1/2*\paperwidth,0) -- (1/2*\paperwidth,1/8*\paperheight);
-		\draw[C3,ultra thick] (1/2*\paperwidth,7/8*\paperheight) -- (1/2*\paperwidth,\paperheight);
+		\draw[C7,ultra thick] (0,1/2*\paperheight) -- (1/8*\paperwidth,1/2*\paperheight);
+		\draw[C7,ultra thick] (7/8*\paperwidth,1/2*\paperheight) -- (\paperwidth,1/2*\paperheight);
+		\draw[C7,ultra thick] (1/2*\paperwidth,1/64*\paperheight) -- (1/2*\paperwidth,1/8*\paperheight);
+		\draw[C7,ultra thick] (1/2*\paperwidth,7/8*\paperheight) -- (1/2*\paperwidth,\paperheight);
 		%
 		%
 		%
 		% transformation abbreviations in corners
 		%
-		\node[anchor=north west] at (0,\paperheight) (FT) {\Huge \textbf{FT}};
-		\node[anchor=north east] at (\paperwidth,\paperheight) (FS) {\Huge \textbf{FS}};
-		\node[anchor=south west] at (0,0) (DTFT) {\Huge \textbf{DTFT}};
-		\node[anchor=south east] at (\paperwidth,0) (DFT) {\Huge \textbf{DFT}};
+		\node[anchor=north west] at (0,\paperheight) (FT) {\Huge {FT} \small Fourier Transform};
+		\node[anchor=north east] at (\paperwidth,\paperheight) (FS) {\small Fourier Series \Huge {FS}};
+		\node[anchor=south west] at (0,0) (DTFT) {\Huge {DTFT} \small Discrete-Time Fourier Transform};
+		\node[anchor=south east] at (\paperwidth,0) (DFT) {\small Discrete Fourier Transform \Huge {DFT}};
 		%
 		\node[anchor=north west] at (11/64*\paperwidth,17/20*\paperheight) (whFT) {\FONTSIZE $\omega_h = \frac{2\pi}{T_h}$};
 		\node[anchor=north west] at (25/32*\paperwidth,17/20*\paperheight) (woFS) {\FONTSIZE $\omega_0 = \frac{2\pi}{T_0}$};
@@ -81,8 +91,34 @@
 		\node[anchor=north west] at (11/64*\paperwidth,5/20*\paperheight) (WcDTFT) {\FONTSIZE $\Omega_h = \frac{2\pi}{K_h}$};
 		\node[anchor=north west] at (8/64*\paperwidth,4.5/20*\paperheight) (WcDTFTfor) {\FONTSIZE $K_h\in\mathbb{N}$, here for $K_h=5$};
 
+		% FT
+		\node[anchor=north west] at (1/64*\paperwidth,19/20*\paperheight) (FTequation) {$
+		x(t)=\frac{1}{2 \pi} \int\limits_{\omega=-\infty}^{+\infty} X(\omega) \e^{+\im \omega t} \fsd \omega
+		\qquad
+		X(\omega)=\int\limits_{t=-\infty}^{+\infty} x(t) \e^{-\im \omega t}\fsd t
+		$};
+		%DTFT
+		\node[anchor=north west] at (1/64*\paperwidth,2/20*\paperheight) (DTFTequation) {$
+		x[k]=\frac{1}{2 \pi} \int\limits_{\Omega=-\pi}^{+\pi} X(\Omega) \e^{+\im \Omega k}
+		\qquad
+		X(\Omega)=\sum\limits_{k=-\infty}^{+\infty} x[k] \e^{-\im \Omega k}
+		$};
+		%DFT
+		\node[anchor=north west] at (45/64*\paperwidth,2/20*\paperheight) (DFTequation) {$
+		x[k]=\frac{1}{N} \sum\limits_{\mu=0}^{N-1} X[\mu] \e^{+\im \frac{2 \pi}{N} \mu k}
+		\qquad
+		X[\mu]=\sum\limits_{k=0}^{N-1} x[k] \e^{-\im \frac{2 \pi}{N} k \mu}
+		$};
+		%FS
+		\node[anchor=north west] at (43.5/64*\paperwidth,19.2/20*\paperheight) (FSequation) {$
+		x(t)=\frac{1}{T_0} \sum\limits_{\mu=-\infty}^{+\infty} \tilde{X}[\mu] \e^{+\im \frac{2 \pi}{T_0} \mu t}
+		\qquad
+		\tilde{X}[\mu]=\int\limits_{t=\frac{-T_0}{2}}^{\frac{+T_0}{2}} x(t) \e^{-\im \frac{2 \pi}{T_0} t \mu} \fsd t
+		$};
 
-		\node[anchor=north west] at (48.5/128*\paperwidth,2/128*\paperheight) (author) {\tiny Robert Hauser, Frank Schultz, University of Rostock, \url{https://github.com/spatialaudio/signals-and-systems-cheatsheet}, CC BY 4.0, 2024-04-06};
+
+
+		\node[anchor=north west] at (40/128*\paperwidth,2/128*\paperheight) (author) {\tiny Robert Hauser, Frank Schultz, University of Rostock, \url{https://github.com/spatialaudio/signals-and-systems-cheatsheet}, CC BY 4.0, 2025-05-22};
 		%
 		% FT Plots
 		%
@@ -91,18 +127,19 @@
 			axis lines = middle,
 			axis line style = {-latex},
 			xlabel = {$t$},
-			x label style = {anchor=north},
+			x label style = {anchor=west},
 			ylabel = {$x(t)$},
-			y label style={anchor=west},
+			y label style={anchor=south},
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
 			at = {(1/10*\paperwidth,14/20*\paperheight)},
 			xtick = {-6,-4,-2,-1,0,1,2,4,6},
-			xticklabels = {,,,$\frac{-T_h}{2}$,,$\frac{+T_h}{2}$,,,},
+			xticklabels = {,,,$\frac{-T_h}{2}$,,$\frac{T_h}{2}$,,,},
 			ytick = {0,0.5,1},
 			yticklabels = {},
 			ticklabel style = {font=\FONTSIZE},
 			grid = major,
+			grid style={C0!50},
 			ymin = -0.25,
 			ymax = 1.125,
 			xmin = -8.5,
@@ -123,15 +160,16 @@
 			axis lines = middle,
 			axis line style = {-latex},
 			xlabel = {$\omega$},
-			x label style = {anchor=north},
+			x label style = {anchor=west},
 			ylabel = {$X\left(\omega\right)$},
-			y label style={anchor=west},
+			y label style={anchor=south},
 			xtick = {-6*pi,-5*pi,...,6*pi},
 			xticklabels = {,$-5\omega_h$,,,,$-\omega_h$,,$+\omega_h$,,,,$5\omega_h$,},
 			ytick = {0,1,2},
 			yticklabels = {},
 			ticklabel style={font=\FONTSIZE},
 			grid = major,
+			grid style={C1!40},
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
 			at = {(3/10*\paperwidth,14/20*\paperheight)},
@@ -158,18 +196,19 @@
 			axis lines = middle,
 			axis line style = {-latex},
 			xlabel = {$t$},
-			x label style = {anchor=north},
+			x label style = {anchor=west},
 			ylabel = {$x(t)$},
-			y label style={anchor=west},
+			y label style={anchor=south},
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
 			at = {(7/10*\paperwidth,14/20*\paperheight)},
 			xtick = {-5,-2.5,-2,-1,1,2,2.5,5},
-			xticklabels = {$-T_0$,,,$\frac{-T_h}{2}$,$\frac{+T_h}{2}$,,,$+T_0$},
+			xticklabels = {$-T_0$,,,$\frac{-T_h}{2}$,$\frac{T_h}{2}$,,,$T_0$},
 			ytick = {0,0.5,1},
 			yticklabels = {},
 			ticklabel style={font=\FONTSIZE},
 			grid = major,
+			grid style={C0!50},
 			ymin = -0.25,
 			ymax = 1.125,
 			xmin = -8.5,
@@ -181,7 +220,7 @@
 			color=\TCOLOR,
 			\LINEWIDTH,]
 			{rect(x/\Th)+rect((x-\T)/\Th)+rect((x+\T)/\Th)};
-			\node[anchor=center] at (axis cs:-2.5,1) {\FONTSIZE $A$};
+			\node[anchor=center] at (axis cs:-\Th/2*1.75,1) {\FONTSIZE $A$};
 		\end{axis}
 		%
 		% rect frequency domain
@@ -190,9 +229,9 @@
 			axis lines = middle,
 			axis line style = {-latex},
 			xlabel = {$\mu$},
-			x label style = {anchor=north},
+			x label style = {anchor=west},
 			ylabel = {$\tilde{X}\left[\mu\right]$},
-			y label style={anchor=west},
+			y label style={anchor=south},
 			xtick = {-15,-10,-5,0,5,10,15},
 			xticklabels = {,,$-5$,,$+5$,$+10$,},
 			ytick = {0,1,2},
@@ -202,6 +241,7 @@
 			height = 18/80*\paperheight,
 			at = {(9/10*\paperwidth,14/20*\paperheight)},
 			grid = major,
+			grid style={C1!40},
 			ymin = -0.5,
 			ymax = 2.25,
 			xmin = -17,,
@@ -215,8 +255,8 @@
 			mark=*,
 			mark size = \MARKSIZE,]
 			{\Th*sinc(x*pi*\Th/\T)};
-			\node[anchor=center] at (axis cs:-5,2) {\FONTSIZE $A T_h$};
-			\node[anchor=center] at (axis cs:-7,1) {\FONTSIZE for $\frac{T_h}{T_0}=\frac{2}{5}$};
+			\node[anchor=center] at (axis cs:-2.5,2) {\FONTSIZE $A T_h$};
+			\node[anchor=center] at (axis cs:-7.5,1) {\FONTSIZE here for $\frac{T_h}{T_0}=\frac{2}{5}$};
 		\end{axis}
 		%
 		%
@@ -228,18 +268,19 @@
 			axis lines = middle,
 			axis line style = {-latex},
 			xlabel = {$k$},
-			x label style = {anchor=north},
+			x label style = {anchor=west},
 			ylabel = {$x[k]$},
-			y label style={anchor=west},
+			y label style={anchor=south},
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
 			at = {(1/10*\paperwidth,6/20*\paperheight)},
 			xtick = {-15,-10,-5,-2.5,0,2.5,5,10,15},
-			xticklabels = {,,,$\frac{-K_h}{2}$,,$\frac{+K_h}{2}$,,$+10$,},
+			xticklabels = {,,,$\frac{-K_h}{2}$,,$\frac{K_h}{2}$,,$+10$,},
 			ytick = {0,0.5,1},
 			yticklabels = {},
 			ticklabel style={font=\FONTSIZE},
 			grid = major,
+			grid style={C0!50},
 			ymin = -0.25,
 			ymax = 1.125,
 			xmin = -17,
@@ -253,7 +294,7 @@
 			mark=*,
 			mark size = \MARKSIZE,]
 			{RECT(x+2,5)};
-			\node[anchor=center] at (axis cs:-5,1) {\FONTSIZE $A$};
+			\node[anchor=center] at (axis cs:-3.5,1) {\FONTSIZE $A$};
 		\end{axis}
 		%
 		% rect frequency domain
@@ -262,18 +303,19 @@
 			axis lines = middle,
 			axis line style = {-latex},
 			xlabel = {$\Omega$},
-			x label style = {anchor=north},
+			x label style = {anchor=west},
 			ylabel = {$X\left(\Omega\right)$},
-			y label style={anchor=west},
+			y label style={anchor=south},
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
 			at = {(3/10*\paperwidth,6/20*\paperheight)},
 			xtick = {-3*pi,-2*pi,-2*pi/5,0,2*pi/5,2*pi,3*pi},
-			xticklabels = {,$-2\pi$,$-\Omega_h$,,$+\Omega_h$,$2\pi$,},
+			xticklabels = {,$-2\pi$,$-\Omega_h$,,$\Omega_h$,$2\pi$,},
 			ytick = {0,2.5,5},
 			yticklabels = {},
 			ticklabel style={font=\FONTSIZE},
 			grid = major,
+			grid style={C1!40},
 			ymin = -1.25,
 			ymax = 5.625,
 			xmin = -17/15*3*pi,
@@ -285,7 +327,7 @@
 			color=\FCOLOR,
 			\LINEWIDTH,]
 			{diric(x,5)};
-			\node[anchor=center] at (axis cs:-pi,5) {\FONTSIZE $A K_h$};
+			\node[anchor=center] at (axis cs:-2*pi/5-0.5,5) {\FONTSIZE $A K_h$};
 		\end{axis}
 		%
 		%
@@ -297,9 +339,9 @@
 			axis lines = middle,
 			axis line style = {-latex},
 			xlabel = {$k$},
-			x label style = {anchor=north},
+			x label style = {anchor=west},
 			ylabel = {$x[k]$},
-			y label style={anchor=west},
+			y label style={anchor=south},
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
 			at = {(7/10*\paperwidth,6/20*\paperheight)},
@@ -309,6 +351,7 @@
 			yticklabels = {},
 			ticklabel style={font=\FONTSIZE},
 			grid = major,
+			grid style={C0!50},
 			ymin = -0.25,
 			ymax = 1.125,
 			xmin = -17,
@@ -322,7 +365,7 @@
 			mark=*,
 			mark size = \MARKSIZE,]
 			{RECT(x+2,5)+RECT(x+2+2*\T,5)+RECT(x+2-2*\T,5)};
-			\node[anchor=center] at (axis cs:-5,1) {\FONTSIZE $A$};
+			\node[anchor=center] at (axis cs:-3.5,1) {\FONTSIZE $A$};
 		\end{axis}
 		%
 		% rect frequency domain
@@ -331,9 +374,9 @@
 			axis lines = middle,
 			axis line style = {-latex},
 			xlabel = {$\mu$},
-			x label style = {anchor=north},
+			x label style = {anchor=west},
 			ylabel = {$X\left[\mu\right]$},
-			y label style={anchor=west},
+			y label style={anchor=south},
 			width = 18/80*\paperwidth,
 			height = 18/80*\paperheight,
 			xtick = {-15,-10,-5,0,5,10,15},
@@ -343,6 +386,7 @@
 			ticklabel style={font=\FONTSIZE},
 			at = {(9/10*\paperwidth,6/20*\paperheight)},
 			grid = major,
+			grid style={C1!40},
 			ymin = -1.25,
 			ymax = 5.625,
 			xmin = -17,
@@ -357,7 +401,7 @@
 			mark size = \MARKSIZE,
 			]
 			{diric2(x,5,10)};
-			\node[anchor=center] at (axis cs:-5,5) {\FONTSIZE $5 A$};
+			\node[anchor=center] at (axis cs:-2,5) {\FONTSIZE $5 A$};
 		\end{axis}
 		%
 		%
@@ -367,11 +411,11 @@
 		%
 		% omega between FT and FS
 		%
-		\node at (22/40*\paperwidth,25/32*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\omega}$};
+		\node at (22/40*\paperwidth,25/32*\paperheight) [align=center,color=\FCOLOR] {\Huge ${\omega}$};
 		%
 		% t between FT and FS
 		%
-		\node at (18/40*\paperwidth,25/32*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{t}$};
+		\node at (18/40*\paperwidth,25/32*\paperheight) [align=center,color=\TCOLOR] {\Huge ${t}$};
 		%
 		% open arrow from FT to FS
 		%
@@ -391,21 +435,21 @@
 		%
 		% impulse comb (open arrow)
 		%
-		\node at (22/40*\paperwidth,28/32*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\cdot\Sha}$};
+		\node at (22/40*\paperwidth,28/32*\paperheight) [align=center,color=\FCOLOR] {\Huge ${\cdot\Sha}$};
 		%
-		\node at (18/40*\paperwidth,28/32*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{\ast\Sha}$};
+		\node at (18/40*\paperwidth,28/32*\paperheight) [align=center,color=\TCOLOR] {\Huge ${\ast\Sha}$};
 		%
 		% closed arrow from FS to FT
 		%
-		\draw[C1,thick,latex-] (17/40*\paperwidth,24/32*\paperheight)  node[below] {Interpolation} -- (23/40*\paperwidth,24/32*\paperheight);
+		\draw[C1,thick,latex-] (17/40*\paperwidth,24/32*\paperheight)  -- (23/40*\paperwidth,24/32*\paperheight) node[below] {Interpolation};
 		%
 		% convolution sinc closed arrow
 		%
-		\node at (22/40*\paperwidth,22/32*\paperheight) [align=center,color=\FCOLOR] {\huge $\mathbf{\ast\sinc}$};
+		\node at (22/40*\paperwidth,22/32*\paperheight) [align=center,color=\FCOLOR] {\huge ${\ast\sinc}$};
 		%
 		% multiplication rect closed arrow
 		%
-		\node at (18/40*\paperwidth,22/32*\paperheight) [align=center,color=\TCOLOR] {\huge $\mathbf{\cdot\rect}$};
+		\node at (18/40*\paperwidth,22/32*\paperheight) [align=center,color=\TCOLOR] {\huge ${\cdot\rect}$};
 		%
 		%
 		%
@@ -415,11 +459,11 @@
 		%
 		% omega between DTFT and DFT
 		%
-		\node at (22/40*\paperwidth,7/32*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\omega}$};
+		\node at (22/40*\paperwidth,7/32*\paperheight) [align=center,color=\FCOLOR] {\Huge ${\omega}$};
 		%
 		% t between DTFT and DFT
 		%
-		\node at (18/40*\paperwidth,7/32*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{t}$};
+		\node at (18/40*\paperwidth,7/32*\paperheight) [align=center,color=\TCOLOR] {\Huge ${t}$};
 		%
 		% open arrow from DTFT to DFT
 		%
@@ -439,21 +483,21 @@
 		%
 		% dirac comb open arrow
 		%
-		\node at (22/40*\paperwidth,10/32*\paperheight) [align=center,color=\FCOLOR] {\Huge $\mathbf{\cdot\Sha}$};
+		\node at (22/40*\paperwidth,10/32*\paperheight) [align=center,color=\FCOLOR] {\Huge ${\cdot\Sha}$};
 		%
-		\node at (18/40*\paperwidth,10/32*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{\ast\Sha}$};
+		\node at (18/40*\paperwidth,10/32*\paperheight) [align=center,color=\TCOLOR] {\Huge ${\ast\Sha}$};
 		%
 		% closed arrow from DFT to DTFT
 		%
-		\draw[C1,thick,latex-] (17/40*\paperwidth,6/32*\paperheight) node[below]{Interpolation}-- (23/40*\paperwidth,6/32*\paperheight);
+		\draw[C1,thick,latex-] (17/40*\paperwidth,6/32*\paperheight) -- (23/40*\paperwidth,6/32*\paperheight) node[below]{Interpolation};
 		%
 		% convolution sinc closed arrow
 		%
-		\node at (22/40*\paperwidth,4/32*\paperheight) [align=center,color=\FCOLOR] {\huge $\mathbf{\ast\psinc}$};
+		\node at (22/40*\paperwidth,4/32*\paperheight) [align=center,color=\FCOLOR] {\huge ${\ast\psinc}$};
 		%
 		% multiplication rect closed arrow
 		%
-		\node at (18/40*\paperwidth,4/32*\paperheight) [align=center,color=\TCOLOR] {\huge $\mathbf{\cdot\rect}$};
+		\node at (18/40*\paperwidth,4/32*\paperheight) [align=center,color=\TCOLOR] {\huge ${\cdot\rect}$};
 		%
 		%
 		%
@@ -462,11 +506,11 @@
 		%
 		% omega between FT and DTFT
 		%
-		\node at (1/5*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge $\mathbf{\omega}$};
+		\node at (1/5*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge ${\omega}$};
 		%
 		% t between FT amd FS
 		%
-		\node at (1/5*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\Huge $\mathbf{t}$};
+		\node at (1/5*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\Huge ${t}$};
 		%
 		% open arrow from FT to DTFT
 		%
@@ -486,20 +530,20 @@
 		%
 		% dirac comb open arrow
 		%
-		\node at (10/32*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge $\mathbf{\ast\Sha}$};
+		\node at (10/32*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge ${\ast\Sha}$};
 		%
-		\node at (10/32*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\Huge $\mathbf{\cdot\Sha}$};
+		\node at (10/32*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\Huge ${\cdot\Sha}$};
 		%
 		% relation between FS and DFT
 		%
 		%
 		% omega between FS and DFT
 		%
-		\node at (4/6*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge $\mathbf{\omega}$};
+		\node at (4/6*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge ${\omega}$};
 		%
 		% t between FS and DFT
 		%
-		\node at (4/6*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\Huge $\mathbf{t}$};
+		\node at (4/6*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR,] {\Huge ${t}$};
 		%
 		% open arrow from FS to DFT
 		%
@@ -519,24 +563,24 @@
 		%
 		% dirac comb open arrow
 		%
-		\node at (25/32*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge $\mathbf{\ast\Sha}$};
+		\node at (25/32*\paperwidth,18/40*\paperheight) [align=center,color=\FCOLOR,] {\Huge ${\ast\Sha}$};
 		%
-		\node at (25/32*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR] {\Huge $\mathbf{\cdot\Sha}$};
+		\node at (25/32*\paperwidth,22/40*\paperheight) [align=center,color=\TCOLOR] {\Huge ${\cdot\Sha}$};
 		%
 		%
 		% arrow from FS to DTFT
 		%
 		\draw[-latex, ultra thick] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=\ANGLE,color=\TCOLOR,xshift=-1/80*\paperwidth,anchor=south] {\FONTSIZE Aperiodisation + Sampling}
 		node[below,rotate=\ANGLE,color=\FCOLOR,xshift=-1/80*\paperwidth,anchor=north] {\FONTSIZE Interpolation + Periodisation} (7.75/20*\paperwidth,7.75/20*\paperheight) coordinate (A);
-		
+
 		\coordinate[above left=0.75cm*cos(\ANGLE) and 0.75cm*sin(\ANGLE) of A] (B);
 		\coordinate[below right=0.75cm*cos(\ANGLE) and 0.75cm*sin(\ANGLE) of A] (C);
-		
+
 		\path[-latex] (B) edge [bend right=90,looseness=2] (C);
-		
+
 		\draw[thick] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=-\ANGLE,color=\TCOLOR,xshift=-1/80*\paperwidth,anchor=south] {\FONTSIZE Periodisation + Sampling}
 		node[below,rotate=-\ANGLE,color=\FCOLOR,xshift=-1/80*\paperwidth,anchor=north] {\FONTSIZE Sampling + Periodisation} (7.75/20*\paperwidth,12.25/20*\paperheight) coordinate (A);
-		
+
 		\coordinate[below left=0.75cm*cos(\ANGLE) and 0.75cm*sin(\ANGLE) of A] (B);
 		\coordinate[above right=0.75cm*cos(\ANGLE) and 0.75cm*sin(\ANGLE) of A] (C);
 		%
@@ -546,7 +590,7 @@
 		%
 		\draw[-latex, ultra thick] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=-\ANGLE,color=\TCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Sampling + Periodisation}
 		node[below,rotate=-\ANGLE,color=\FCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Periodisation + Sampling} (12.25/20*\paperwidth,7.75/20*\paperheight) coordinate (A);
-		
+
 		\coordinate[below left=0.75cm*cos(\ANGLE) and 0.75cm*sin(\ANGLE) of A] (B);
 		\coordinate[above right=0.75cm*cos(\ANGLE) and 0.75cm*sin(\ANGLE) of A] (C);
 		%
@@ -556,7 +600,7 @@
 		%
 		\draw[thick] (1/2*\paperwidth,1/2*\paperheight) -- node[above,rotate=\ANGLE,color=\TCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Sampling + Aperiodisation}
 		node[below,rotate=\ANGLE,color=\FCOLOR,xshift=1/80*\paperwidth] {\FONTSIZE Periodisation + Interpolation} (12.25/20*\paperwidth,12.25/20*\paperheight) coordinate (A);
-		
+
 		\coordinate[above left=0.75cm*cos(\ANGLE) and 0.75cm*sin(\ANGLE) of A] (B);
 		\coordinate[below right=0.75cm*cos(\ANGLE) and 0.75cm*sin(\ANGLE) of A] (C);
 		%
