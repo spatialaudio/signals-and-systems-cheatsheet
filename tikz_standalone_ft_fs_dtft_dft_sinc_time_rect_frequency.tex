@@ -96,27 +96,35 @@ declare function = {
 x(t)=\frac{1}{2 \pi} \int\limits_{\omega=-\infty}^{+\infty} X(\omega) \e^{+\im \omega t} \fsd \omega
 \qquad
 X(\omega)=\int\limits_{t=-\infty}^{+\infty} x(t) \e^{-\im \omega t}\fsd t
+\qquad
+t\in\mathbb{R}, \omega\in\mathbb{R}
 $};
 %DTFT
 \node[anchor=north west] at (1/64*\paperwidth,2/20*\paperheight) (DTFTequation) {$
 x[k]=\frac{1}{2 \pi} \int\limits_{\Omega=-\pi}^{+\pi} X(\Omega) \e^{+\im \Omega k}
 \qquad
 X(\Omega)=\sum\limits_{k=-\infty}^{+\infty} x[k] \e^{-\im \Omega k}
+\qquad
+k\in\mathbb{Z}, \Omega\in\mathbb{R}
 $};
 %DFT
-\node[anchor=north west] at (45/64*\paperwidth,2/20*\paperheight) (DFTequation) {$
+\node[anchor=north west] at (40/64*\paperwidth,2/20*\paperheight) (DFTequation) {$
 x[k]=\frac{1}{N} \sum\limits_{\mu=0}^{N-1} X[\mu] \e^{+\im \frac{2 \pi}{N} \mu k}
 \qquad
-X[\mu]=\sum\limits_{k=0}^{N-1} x[k] \e^{-\im \frac{2 \pi}{N} k \mu}
+X[\mu]=\sum\limits_{k=0}^{N-1} x[k] \e^{-\im \frac{2 \pi}{N} \mu k}
+\qquad
+k\in\mathbb{Z}, \mu\in\mathbb{Z}
 $};
 %FS
-\node[anchor=north west] at (43.5/64*\paperwidth,19.2/20*\paperheight) (FSequation) {$
+\node[anchor=north west] at (38.5/64*\paperwidth,19.2/20*\paperheight) (FSequation) {$
 x(t)=\frac{1}{T_0} \sum\limits_{\mu=-\infty}^{+\infty} \tilde{X}[\mu] \e^{+\im \frac{2 \pi}{T_0} \mu t}
 \qquad
-\tilde{X}[\mu]=\int\limits_{t=\frac{-T_0}{2}}^{\frac{+T_0}{2}} x(t) \e^{-\im \frac{2 \pi}{T_0} t \mu} \fsd t
+\tilde{X}[\mu]=\int\limits_{t=-\frac{T_0}{2}}^{+\frac{T_0}{2}} x(t) \e^{-\im \frac{2 \pi}{T_0} \mu t} \fsd t
+\qquad
+t\in\mathbb{R}, \mu\in\mathbb{Z}
 $};
 
-\node[anchor=north west] at (40/128*\paperwidth,2/128*\paperheight) (author) {\tiny Robert Hauser, Frank Schultz, University of Rostock, \url{https://github.com/spatialaudio/signals-and-systems-cheatsheet}, CC BY 4.0, 2025-04-07};
+\node[anchor=north west] at (40/128*\paperwidth,2/128*\paperheight) (author) {\tiny Robert Hauser, Frank Schultz, University of Rostock, \url{https://github.com/spatialaudio/signals-and-systems-cheatsheet}, CC BY 4.0, 2026-05-19};
 % FT Plots
 %
 %
